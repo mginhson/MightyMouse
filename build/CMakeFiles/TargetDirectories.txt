@@ -1,0 +1,3 @@
+/home/mginhson/Desktop/EDA/mms-cpp/build/CMakeFiles/main.dir
+/home/mginhson/Desktop/EDA/mms-cpp/build/CMakeFiles/edit_cache.dir
+/home/mginhson/Desktop/EDA/mms-cpp/build/CMakeFiles/rebuild_cache.dir
