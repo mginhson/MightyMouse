@@ -44,6 +44,7 @@ typedef struct{
     Mouse_t mouse;
 
 }Maze_t;
+
 void initMaze(Maze_t& maze);
 void floodFill(Maze_t& maze);
 bool hasFinished (Maze_t& maze);
