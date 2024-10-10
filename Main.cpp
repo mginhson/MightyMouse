@@ -62,6 +62,74 @@ int main(int argc, char* argv[]) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
 * En la primera llamada le pasamos el
 * 
@@ -135,6 +203,8 @@ bool hayObstaculo(short int lado, short int direccionNave) {
 #include <vector>
 #include <queue>
 #include <cmath>
+
+
 
 // Definición de un nodo
 struct Nodo_t {
