@@ -151,4 +151,5 @@ CMakeFiles/main.dir/Main.cpp.o: \
  /usr/include/c++/11/deque /usr/include/c++/11/bits/stl_deque.h \
  /usr/include/c++/11/bits/deque.tcc /usr/include/c++/11/bits/stl_stack.h \
  /usr/include/c++/11/bits/uses_allocator.h \
- /home/mginhson/Desktop/EDA/MightyMouse/API.h
+ /home/mginhson/Desktop/EDA/MightyMouse/API.h /usr/include/c++/11/queue \
+ /usr/include/c++/11/bits/stl_heap.h /usr/include/c++/11/bits/stl_queue.h
