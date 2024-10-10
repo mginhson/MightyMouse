@@ -8,6 +8,8 @@ void log(const std::string& text) {
     std::cerr << text << std::endl;
 }
 
+
+
 typedef enum{left,right,forward} Movement_t;
 
 typedef std::vector<Movement_t> MovementStack_t;
@@ -18,9 +20,7 @@ void goBackToBeginning (MovementStack_t& movementStack);
 
 int main(int argc, char* argv[]) {
     log("Running...");
-    API::setColor(0, 0, 'G');
-    API::setText(0, 0, "abc");
-
+    
     MovementStack_t chain;
     
     while (true) {
