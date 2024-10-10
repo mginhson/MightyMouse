@@ -15,22 +15,21 @@ typedef enum{movement_left,movement_right,movement_forward} Movement_t;
 
 typedef std::vector<Movement_t> MovementStack_t;
 
-enum orientations {
+typedef enum {
     up,
     right,
     down,
     left
-};
+}Orientation_t;
 
 typedef struct{
     int x;
     int y;
-    int Orient;
+    Orientation_t orientation;
 }Mouse_t;
 
 
-void goBackToBeginning (MovementStack_t& movementStack);
-bool hasFinished (int x, int y);
+
 
 typedef enum{
     leftWall, 
@@ -61,74 +60,35 @@ typedef struct{
     Mouse_t mouse;
 }Maze_t;
 
-int main(int argc, char* argv[]) {
-    
-    log("Running...");
-    
-    MovementStack_t chain;
-    Mouse_t mouse;
-    while (true) {
-        unsigned int x;
-        
-        for (x = 0; x < 30; x++)
-        {
-            if (!API::wallLeft()) 
-            {
-                API::turnLeft();
-                chain.push_back(movement_left);
-            }
 
-            while (API::wallFront()) 
-            {
-                API::turnRight();
-                chain.push_back(movement_right);
-            }
-
-            API::moveForward();
-            chain.push_back(movement_forward);
-        }
-
-        goBackToBeginning(chain);
-        
-    }
-}
+void goBackToBeginning (Maze_t& maze);
+bool hasFinished (Maze_t& maze);
 
 
-void goBackToBeginning (MovementStack_t& movementStack)
+int main(int argc, char* argv[]) 
 {
     
-    /**
-     * We need to retrace back our steps, the opposite way. So, we first
-     * turn around, then read the chain sequence backwards.
-     */
+    log("Running...");
+    Maze_t maze;
+    int triesLeft = 3;
 
-    API::turnLeft();
-    API::turnLeft();
-
-    while ( movementStack.size() > 0 )
+    while(triesLeft)
     {
-            
-        switch (movementStack.back())
+        /**
+         * At this point, the mouse is supposed to be at {0,0}.
+         */
+
+        while (!hasFinished(maze))
         {
-            case movement_left:
-            {
-                API::turnRight();
-            }break;
 
-            case movement_right:
-            {
-                API::turnLeft();
-            }break;
-
-            case movement_forward:
-            {
-                API::moveForward();
-            }break;
-            
-            default:
-                break;
         }
-
-        movementStack.pop_back();
     }
+
+
+    
+
+
+        
+    
 }
+
