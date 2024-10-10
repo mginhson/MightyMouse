@@ -54,6 +54,7 @@ typedef enum{
 typedef struct{
     unsigned int floodfillValue;
     CellKind_t cellKind;
+    bool mark;
 }Cell_t;
 
 typedef struct{
@@ -63,7 +64,9 @@ typedef struct{
 
 
 void initMaze (Maze_t& maze);
-void hasFinished (Maze_t& maze);
+bool hasFinished (Maze_t& maze);
+void updateCell (Maze_t& maze);
+
 
 int main(int argc, char* argv[]) 
 {
@@ -76,6 +79,8 @@ int main(int argc, char* argv[])
         
     
 }
+
+
     void initMaze(Maze_t & maze) {
         maze.mouse.x = 0;
         maze.mouse.y = 0;
@@ -90,12 +95,63 @@ int main(int argc, char* argv[])
                 //Tercer cuadrante
                 else if (i <= 7 && j <= 7) maze.board[i][j].floodfillValue = 7 - i + 7 - j;
                 //Cuarto cuadrante
-                else if (i = > 8 && j <= 7) maze.board[i][j].floodfillValue = i - 8 + 7 - j;
+                else if (i >= 8 && j <= 7) maze.board[i][j].floodfillValue = i - 8 + 7 - j;
+
+                maze.board[i][j].mark = 0;
             }
         }
     }
 
+
 bool hasFinished (Maze_t& maze)
 {
     return 1;
+}
+
+/**
+ * @brief Updates the cell if needed 
+ */
+void updateCell (Maze_t& maze)
+{
+    //Just in case
+    if (maze.board[maze.mouse.x][maze.mouse.y].mark == 1)
+        return;
+    
+    maze.board[maze.mouse.x][maze.mouse.y].mark = 0;
+
+    /**
+     * bitwise, from left to right
+     * left, front, right
+     * 
+     */
+    unsigned char walls = 0b000;
+    if (API::wallLeft()) walls |= 0b100;
+    if (API::wallFront()) walls |= 0b010;
+    if (API::wallRight()) walls |= 0b001;
+
+    switch (maze.mouse.orientation)
+    {
+        case left:
+        {
+            var |= 
+        }break;
+
+        case right:
+        {
+            
+        }break;
+
+        case up:
+        {
+
+        }break;
+
+        case down:
+        {
+
+        }break;
+
+    }
+
+
 }
