@@ -34,7 +34,7 @@ typedef struct{
     unsigned int floodfillValue;
     bool walls[4];
     bool mark;
-    bool floodFillMark;
+    bool floodfillMark;
     int x;
     int y;
 }Cell_t;
@@ -272,22 +272,22 @@ void floodFill(Maze_t& maze) {
             // Al recorrer siempre alrededor, se llega siempre de la manera mas corta al camino
             if (pCell->x + 1 < MAZE_SIZE && !maze.board[pCell->x + 1][pCell->y].mark && (pCell->walls)[right]) {
                 cellQueue.push(&(maze.board[pCell->x + 1][pCell->y]));
-                maze.board[pCell->x + 1][pCell->y].FloodFillmark = true;
+                maze.board[pCell->x + 1][pCell->y].floodfillMark = true;
                 maze.board[pCell->x + 1][pCell->y].floodfillValue = floodfillAsignmentValue;
             }
             if (pCell->x - 1 > 0 && !maze.board[pCell->x - 1][pCell->y].mark && (pCell->walls)[left]) {
                 cellQueue.push(&(maze.board[pCell->x - 1][pCell->y]));
-                maze.board[pCell->x - 1][pCell->y].FloodFillmark = true;
+                maze.board[pCell->x - 1][pCell->y].floodfillMark = true;
                 maze.board[pCell->x - 1][pCell->y].floodfillValue = floodfillAsignmentValue;
             }
             if (pCell->y + 1 < MAZE_SIZE && !maze.board[pCell->x][pCell->y + 1].mark && (pCell->walls)[up]) {
                 cellQueue.push(&(maze.board[pCell->x][pCell->y + 1]);
-                maze.board[pCell->x][pCell->y + 1].FloodFillmark = true;
+                maze.board[pCell->x][pCell->y + 1].floodfillMark = true;
                 maze.board[pCell->x][pCell->y + 1].floodfillValue = floodfillAsignmentValue;
             }
             if (pCell->y - 1 > 0 && maze.board[pCell->x][pCell->y - 1].mark && (pCell->walls[down])) {
                 cellQueue.push(&(maze.board[pCell->x][pCell->y - 1]));
-                maze.board[pCell->x][pCell->y - 1].FloodFillmark = true;
+                maze.board[pCell->x][pCell->y - 1].floodfillMark = true;
                 maze.board[pCell->x][pCell->y - 1].floodfillValue = floodfillAsignmentValue;
             }
         }
