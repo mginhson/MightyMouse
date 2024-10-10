@@ -58,6 +58,7 @@ typedef struct{
 
 typedef struct{
     Cell_t board[16][16];
+    Mouse_t mouse;
 }Maze_t;
 
 int main(int argc, char* argv[]) {
