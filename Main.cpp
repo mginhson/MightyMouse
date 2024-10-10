@@ -60,6 +60,7 @@ typedef struct{
     Mouse_t mouse;
 }Maze_t;
 
+bool hasFinished (Maze_t& maze);
 
 void initMaze(Maze_t& maze) {
     maze.mouse.x = 0;
@@ -104,15 +105,12 @@ int main(int argc, char* argv[]) {
              */
 
 
-            unsigned char wallAnalyzer = 0b0000;
-            if (API::wallRight()) walls |= 0b001;
-            if (API::wallFront()) walls |= 0b010;
-            if (API::wallLeft() ) walls |= 0b100;
-
-            switch (walls)
-            {
-                case 0b000:
-            }
+            unsigned char var;
+            
         }    
 }
 
+bool hasFinished (Maze_t& maze)
+{
+    return 1;
+}
