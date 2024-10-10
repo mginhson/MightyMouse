@@ -108,9 +108,9 @@ int main(int argc, char* argv[])
                 //Cuarto cuadrante
                 else if (i >= 8 && j <= 7) maze.board[i][j].floodfillValue = i - 8 + 7 - j;
 
-            maze.board[i][j].cellKind = emptyWall;
+            
             maze.board[i][j].mark = false;
-            maze.board[i][j].floodFillMark = false;
+            maze.board[i][j].floodfillMark = false;
             maze.board[i][j].x = j;
             maze.board[i][j].y = i;
                 maze.board[i][j].walls[up] = 0;
@@ -122,7 +122,7 @@ int main(int argc, char* argv[])
             }
         }
     }
-}
+
 
 /**
  * @brief Updates the cell if needed 
@@ -281,7 +281,7 @@ void floodFill(Maze_t& maze) {
                 maze.board[pCell->x - 1][pCell->y].floodfillValue = floodfillAsignmentValue;
             }
             if (pCell->y + 1 < MAZE_SIZE && !maze.board[pCell->x][pCell->y + 1].mark && (pCell->walls)[up]) {
-                cellQueue.push(&(maze.board[pCell->x][pCell->y + 1]);
+                cellQueue.push(&(maze.board[pCell->x][pCell->y + 1]));
                 maze.board[pCell->x][pCell->y + 1].floodfillMark = true;
                 maze.board[pCell->x][pCell->y + 1].floodfillValue = floodfillAsignmentValue;
             }
@@ -293,3 +293,4 @@ void floodFill(Maze_t& maze) {
         }
         floodfillAsignmentValue++;
     }
+}
