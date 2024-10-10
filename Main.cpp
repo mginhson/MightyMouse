@@ -59,6 +59,8 @@ typedef struct{
     Cell_t board[MAZE_SIZE][MAZE_SIZE];
     Mouse_t mouse;
 }Maze_t;
+
+
 void initMaze(Maze_t& maze) {
     maze.mouse.x = 0;
     maze.mouse.y = 0;
@@ -111,15 +113,6 @@ int main(int argc, char* argv[]) {
             {
                 case 0b000:
             }
-            
-        }
-    }
-
-
-    
-
-
-        
-    
+        }    
 }
 
