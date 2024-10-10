@@ -50,17 +50,27 @@ typedef enum{
     emptyWall,
     CompleteWall
 }CellKind_t;
-
+#define MAZE_SIZE 16
 typedef struct{
     unsigned int floodfillValue;
     CellKind_t cellKind;
 }Cell_t;
 
 typedef struct{
-    Cell_t board[16][16];
+    Cell_t board[MAZE_SIZE][MAZE_SIZE];
     Mouse_t mouse;
 }Maze_t;
 
+void initMaze(Maze_t& maze) {
+    maze.mouse.x = 0;
+    maze.mouse.y = 0;
+    maze.mouse.Orient = up;
+    for (int i = 0; i < MAZE_SIZE; i++) {
+        for (int j = 0; j < MAZE_SIZE; j++) {
+            maze[]
+        }
+    }
+}
 
 int main(int argc, char* argv[]) {
     
