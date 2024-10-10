@@ -112,7 +112,8 @@ int main(int argc, char* argv[])
 }
 
 
-    void initMaze(Maze_t & maze) {
+    void initMaze(Maze_t & maze) 
+    {
         maze.mouse.x = 0;
         maze.mouse.y = 0;
         maze.mouse.orientation = up;
@@ -130,7 +131,7 @@ int main(int argc, char* argv[])
                 //Cuarto cuadrante
                 else if (i >= 8 && j <= 7) maze.board[i][j].floodfillValue = i - 8 + 7 - j;
 
-            maze.board[i][j].cellKind = emptyWall;
+           
             maze.board[i][j].mark = false;
             maze.board[i][j].floodFillMark = false;
             maze.board[i][j].x = j;
@@ -144,7 +145,7 @@ int main(int argc, char* argv[])
             }
         }
     }
-}
+
 
 /**
  * @brief Updates the cell if needed 
