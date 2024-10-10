@@ -18,6 +18,7 @@ typedef std::vector<Movement_t> MovementStack_t;
 
 
 void goBackToBeginning (MovementStack_t& movementStack);
+bool hasFinished (int x, int y);
 
 typedef enum{
 
@@ -25,7 +26,7 @@ typedef enum{
 
 typedef struct{
     unsigned int floodfillValue;
-
+    unsigned char availableNeighbor[4];
 }Cell_t;
 
 int main(int argc, char* argv[]) {
@@ -59,75 +60,6 @@ int main(int argc, char* argv[]) {
         
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 void goBackToBeginning (MovementStack_t& movementStack)
