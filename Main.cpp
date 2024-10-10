@@ -16,7 +16,7 @@ typedef enum{movement_left,movement_right,movement_forward} Movement_t;
 typedef std::vector<Movement_t> MovementStack_t;
 
 typedef enum {
-    up,
+    up = 0,
     right,
     down,
     left
@@ -54,7 +54,7 @@ typedef enum{
 
 typedef struct{
     unsigned int floodfillValue;
-    CellKind_t cellKind;
+    bool walls[4];
     bool mark;
     bool floodFillMark;
     int x;
@@ -126,6 +126,11 @@ void initMaze(Maze_t & maze) {
             maze.board[i][j].floodFillMark = false;
             maze.board[i][j].x = j;
             maze.board[i][j].y = i;
+                maze.board[i][j].walls[up] = 0;
+                maze.board[i][j].walls[down] = 0;
+                maze.board[i][j].walls[left] = 0;
+                maze.board[i][j].walls[right] = 0;
+            }
         }
     }
 }
@@ -143,36 +148,16 @@ void updateCell (Maze_t& maze)
 
     /**
      * bitwise, from left to right
-     * left, front, right
+     * orientation(2bits), left, front, right
      * 
      */
-    unsigned char walls = 0b000;
+    unsigned char walls = 0b00000;
     if (API::wallLeft()) walls |= 0b100;
     if (API::wallFront()) walls |= 0b010;
     if (API::wallRight()) walls |= 0b001;
 
-    switch (maze.mouse.orientation)
-    {
-        case left:
-        {
-            var |= 
-        }break;
-
-        case right:
-        {
-            
-        }break;
-
-        case up:
-        {
-
-        }break;
-
-        case down:
-        {
-
-        }break;
-
+    
+        
     }
 
 
