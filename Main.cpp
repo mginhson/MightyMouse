@@ -9,7 +9,7 @@ void log(const std::string& text) {
     std::cerr << text << std::endl;
 }
 
-
+void initMaze(Maze_t& maze);
 
 typedef enum{movement_left,movement_right,movement_forward} Movement_t;
 
@@ -60,25 +60,6 @@ typedef struct{
     Mouse_t mouse;
 }Maze_t;
 
-bool hasFinished (Maze_t& maze);
-
-void initMaze(Maze_t& maze) {
-    maze.mouse.x = 0;
-    maze.mouse.y = 0;
-
-    for (int i = 0; i < MAZE_SIZE: i++) {
-        for (int j = 0; h < MAZE_SIZE; j++) {
-            //Primer cuadrante
-            if (i >= 8 && j >= 8) maze.board[i][j] = i - 8 + j - 8;
-            //Segundo cuadrante
-            else if (i <= 7 && j >= 8) maze.board[i][j] = 7 - i + j - 8;
-            //Tercer cuadrante
-            else if (i <= 7 && j <= 7) maze.board[i][j] = 7 - i + 7 - j;
-            //Cuarto cuadrante
-            else if (i = > 8 && j <= 7) maze.board[i][j] = i - 8 + 7 - j;
-        }
-    }
-}
 
 int main(int argc, char* argv[]) {
     
@@ -105,10 +86,35 @@ int main(int argc, char* argv[]) {
              */
 
 
-            unsigned char var;
-            
-        }    
+            unsigned char wallAnalyzer = 0b0000;
+            if (API::wallRight()) walls |= 0b001;
+            if (API::wallFront()) walls |= 0b010;
+            if (API::wallLeft() ) walls |= 0b100;
+
+        }
+    }
+
+        
+    
 }
+    void initMaze(Maze_t & maze) {
+        maze.mouse.x = 0;
+        maze.mouse.y = 0;
+        int i;
+        int j
+        for ( i = 0; i < MAZE_SIZE; i++) {
+            for (j = 0; j < MAZE_SIZE; j++) {
+                //Primer cuadrante
+                if (i >= 8 && j >= 8) maze.board[i][j].floodfillValue = i - 8 + j - 8;
+                //Segundo cuadrante
+                else if (i <= 7 && j >= 8) maze.board[i][j].floodfillValue = 7 - i + j - 8;
+                //Tercer cuadrante
+                else if (i <= 7 && j <= 7) maze.board[i][j].floodfillValue = 7 - i + 7 - j;
+                //Cuarto cuadrante
+                else if (i = > 8 && j <= 7) maze.board[i][j].floodfillValue = i - 8 + 7 - j;
+            }
+        }
+    }
 
 bool hasFinished (Maze_t& maze)
 {
