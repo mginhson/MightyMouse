@@ -88,17 +88,45 @@ int main(int argc, char* argv[]) {
     
 }
 void floodFill(Maze_t & maze) {
-    // Chequeo el valor de floodfill de las direcciones alrededor del mouse
-    std::queue<Cell_t> cellQueue;
-    cellQueue.push(maze.board[7][7]);
-    cellQueue.push(maze.board[7][8]);
-    cellQueue.push(maze.board[8][7]);
-    cellQueue.push(maze.board[8][8]);
-    int mouseX = maze.mouse.x;
-    int mouseY = maze.mouse.y;
-    // Pared de frente
+    
+    std::queue<Cell_t *> cellQueue;
+    // Se cargan las primeras 4 direcciones de destino
+    cellQueue.push(&(maze.board[7][7]));
+    cellQueue.push(&(maze.board[7][8]));
+    cellQueue.push(&(maze.board[8][7]));
+    cellQueue.push(&(maze.board[8][8]));
+    
+    int floodfillAsignmentValue = 0;
     while (!cellQueue.empty()) {
-        
+        int i;
+        for (i = 0; i < cellQueue.size(); i++) {
+            Cell_t* pCell = cellQueue.front();
+            pCell->mark = true;
+            // Al recorrer siempre alrededor, se llega siempre de la manera mas corta al camino
+
+            if (pCell->x + 1 < MAZE_SIZE && !maze.board[pCell->x + 1][pCell->y].mark && (pCell->walls)[right]) {
+                cellQueue.push(&(maze.board[pCell->x + 1][pCell->y]));
+                maze.board[pCell->x + 1][pCell->y].FloodFillmark = true;
+                maze.board[pCell->x + 1][pCell->y].floodfillValue = floodfillAsignmentValue;
+            }
+            if (pCell->x - 1 > 0 && !maze.board[pCell->x - 1][pCell->y].mark && (pCell->walls)[left]) {
+                cellQueue.push(&(maze.board[pCell->x - 1][pCell->y]));
+                maze.board[pCell->x - 1][pCell->y].FloodFillmark = true;
+                maze.board[pCell->x - 1][pCell->y].floodfillValue = floodfillAsignmentValue;
+            }
+            if (pCell->y + 1 < MAZE_SIZE && !maze.board[pCell->x][pCell->y + 1].mark && (pCell->walls)[up]) {
+                cellQueue.push(&(maze.board[pCell->x][pCell->y + 1]);
+                maze.board[pCell->x][pCell->y + 1].FloodFillmark = true;
+                maze.board[pCell->x][pCell->y + 1].floodfillValue = floodfillAsignmentValue;
+            }
+            if (pCell->y - 1 > 0 && maze.board[pCell->x][pCell->y - 1].mark && (pCell->walls[down])) {
+                cellQueue.push(&(maze.board[pCell->x][pCell->y - 1]));
+                maze.board[pCell->x][pCell->y - 1].FloodFillmark = true;
+                maze.board[pCell->x][pCell->y - 1].floodfillValue = floodfillAsignmentValue;
+            }
+        }
+
+        floodfillAsignmentValue++;
     }
     
     
