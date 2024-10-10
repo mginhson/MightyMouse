@@ -56,6 +56,9 @@ typedef struct{
     unsigned int floodfillValue;
     CellKind_t cellKind;
     bool mark;
+    bool floodFillMark;
+    int x;
+    int y;
 }Cell_t;
 
 typedef struct{
@@ -64,7 +67,7 @@ typedef struct{
 
 }Maze_t;
 void initMaze(Maze_t& maze);
-
+void floodFill(Maze_t& maze);
 int main(int argc, char* argv[]) {
     
     log("Running...");
@@ -86,9 +89,17 @@ int main(int argc, char* argv[]) {
 }
 void floodFill(Maze_t & maze) {
     // Chequeo el valor de floodfill de las direcciones alrededor del mouse
+    std::queue<Cell_t> cellQueue;
+    cellQueue.push(maze.board[7][7]);
+    cellQueue.push(maze.board[7][8]);
+    cellQueue.push(maze.board[8][7]);
+    cellQueue.push(maze.board[8][8]);
     int mouseX = maze.mouse.x;
     int mouseY = maze.mouse.y;
     // Pared de frente
+    while (!cellQueue.empty()) {
+        
+    }
     
     
 
@@ -111,6 +122,10 @@ void initMaze(Maze_t & maze) {
             else if (i = > 8 && j <= 7) maze.board[i][j].floodfillValue = i - 8 + 7 - j;
 
             maze.board[i][j].cellKind = emptyWall;
+            maze.board[i][j].mark = false;
+            maze.board[i][j].floodFillMark = false;
+            maze.board[i][j].x = j;
+            maze.board[i][j].y = i;
         }
     }
 }
