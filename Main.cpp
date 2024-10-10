@@ -11,21 +11,23 @@ void log(const std::string& text) {
 
 
 
-typedef enum{left,right,forward} Movement_t;
+typedef enum{movement_left,movement_right,movement_forward} Movement_t;
 
 typedef std::vector<Movement_t> MovementStack_t;
+
 enum orientations {
     up,
     right,
     down,
     left
 };
-struct Mouse {
+
+typedef struct{
     int x;
     int y;
     int Orient;
-};
-int Orient = up;
+}Mouse_t;
+
 
 void goBackToBeginning (MovementStack_t& movementStack);
 bool hasFinished (int x, int y);
@@ -59,7 +61,7 @@ int main(int argc, char* argv[]) {
     log("Running...");
     
     MovementStack_t chain;
-    
+    Mouse_t mouse;
     while (true) {
         unsigned int x;
         
@@ -68,17 +70,17 @@ int main(int argc, char* argv[]) {
             if (!API::wallLeft()) 
             {
                 API::turnLeft();
-                chain.push_back(left);
+                chain.push_back(movement_left);
             }
 
             while (API::wallFront()) 
             {
                 API::turnRight();
-                chain.push_back(right);
+                chain.push_back(movement_right);
             }
 
             API::moveForward();
-            chain.push_back(forward);
+            chain.push_back(movement_forward);
         }
 
         goBackToBeginning(chain);
@@ -103,17 +105,17 @@ void goBackToBeginning (MovementStack_t& movementStack)
             
         switch (movementStack.back())
         {
-            case left:
+            case movement_left:
             {
                 API::turnRight();
             }break;
 
-            case right:
+            case movement_right:
             {
                 API::turnLeft();
             }break;
 
-            case forward:
+            case movement_forward:
             {
                 API::moveForward();
             }break;
