@@ -14,13 +14,38 @@ void log(const std::string& text) {
 typedef enum{left,right,forward} Movement_t;
 
 typedef std::vector<Movement_t> MovementStack_t;
-
-
+enum orientations {
+    up,
+    right,
+    down,
+    left
+};
+struct Mouse {
+    int x;
+    int y;
+    int Orient;
+};
+int Orient = up;
 
 void goBackToBeginning (MovementStack_t& movementStack);
 
 typedef enum{
-
+    leftWall, 
+    upWall,
+    rightWall,
+    downWall,
+    leftDownWall,
+    rightDownWall,
+    rightUpWall,
+    leftUpWall,
+    leftRigthWall,
+    upDownWall,
+    leftRightDownWall,
+    rigthUpDownWall,
+    leftRigthUpWall,
+    leftUpDownWall,
+    emptyWall,
+    CompleteWall
 }CellKind_t;
 
 typedef struct{
