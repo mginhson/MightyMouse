@@ -53,7 +53,7 @@ typedef enum{
 
 typedef struct{
     unsigned int floodfillValue;
-    unsigned char availableNeighbor[4];
+    CellKind_t cellKind;
 }Cell_t;
 
 typedef struct{
