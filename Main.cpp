@@ -80,6 +80,16 @@ int main(int argc, char* argv[]) {
 
         while (!hasFinished(maze))
         {
+            /**
+             * First, we analyze the cell. If it isn't the wallEmpty kind,
+             * it has already been analyzed.
+             */
+
+
+            unsigned char wallAnalyzer = 0b0000;
+            if (API::wallRight()) walls |= 0b001;
+            if (API::wallFront()) walls |= 0b010;
+            if (API::wallLeft() ) walls |= 0b100;
 
         }
     }
