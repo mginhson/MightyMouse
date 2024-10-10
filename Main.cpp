@@ -9,7 +9,6 @@ void log(const std::string& text) {
     std::cerr << text << std::endl;
 }
 
-void initMaze(Maze_t& maze);
 
 typedef enum{movement_left,movement_right,movement_forward} Movement_t;
 
@@ -49,7 +48,9 @@ typedef enum{
     emptyWall,
     CompleteWall
 }CellKind_t;
+
 #define MAZE_SIZE 16
+
 typedef struct{
     unsigned int floodfillValue;
     CellKind_t cellKind;
@@ -61,38 +62,16 @@ typedef struct{
 }Maze_t;
 
 
-int main(int argc, char* argv[]) {
+void initMaze (Maze_t& maze);
+void hasFinished (Maze_t& maze);
+
+int main(int argc, char* argv[]) 
+{
     
     log("Running...");
+
+  
     
-    MovementStack_t chain;
-    Mouse_t mouse;
-    while (true) {
-        unsigned int x;
-        
-        for (x = 0; x < 30; x++)
-        {
-            if (!API::wallLeft()) 
-            {
-                API::turnLeft();
-                chain.push_back(movement_left);
-            }
-
-        while (!hasFinished(maze))
-        {
-            /**
-             * First, we analyze the cell. If it isn't the wallEmpty kind,
-             * it has already been analyzed.
-             */
-
-
-            unsigned char wallAnalyzer = 0b0000;
-            if (API::wallRight()) walls |= 0b001;
-            if (API::wallFront()) walls |= 0b010;
-            if (API::wallLeft() ) walls |= 0b100;
-
-        }
-    }
 
         
     
@@ -101,7 +80,7 @@ int main(int argc, char* argv[]) {
         maze.mouse.x = 0;
         maze.mouse.y = 0;
         int i;
-        int j
+        int j;
         for ( i = 0; i < MAZE_SIZE; i++) {
             for (j = 0; j < MAZE_SIZE; j++) {
                 //Primer cuadrante
