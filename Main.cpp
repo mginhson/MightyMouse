@@ -56,6 +56,10 @@ typedef struct{
     unsigned char availableNeighbor[4];
 }Cell_t;
 
+typedef struct{
+    Cell_t board[16][16];
+}Maze_t;
+
 int main(int argc, char* argv[]) {
     
     log("Running...");
