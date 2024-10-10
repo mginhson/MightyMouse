@@ -100,9 +100,10 @@ int main(int argc, char* argv[]) {
     void initMaze(Maze_t & maze) {
         maze.mouse.x = 0;
         maze.mouse.y = 0;
-
-        for (int i = 0; i < MAZE_SIZE; i++) {
-            for (int j = 0; j < MAZE_SIZE; j++) {
+        int i;
+        int j
+        for ( i = 0; i < MAZE_SIZE; i++) {
+            for (j = 0; j < MAZE_SIZE; j++) {
                 //Primer cuadrante
                 if (i >= 8 && j >= 8) maze.board[i][j].floodfillValue = i - 8 + j - 8;
                 //Segundo cuadrante
