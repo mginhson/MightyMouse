@@ -8,8 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/mginhson/Desktop/EDA/mms-cpp/API.cpp" "CMakeFiles/main.dir/API.cpp.o" "gcc" "CMakeFiles/main.dir/API.cpp.o.d"
-  "/home/mginhson/Desktop/EDA/mms-cpp/Main.cpp" "CMakeFiles/main.dir/Main.cpp.o" "gcc" "CMakeFiles/main.dir/Main.cpp.o.d"
+  "/home/mginhson/Desktop/EDA/MightyMouse/API.cpp" "CMakeFiles/main.dir/API.cpp.o" "gcc" "CMakeFiles/main.dir/API.cpp.o.d"
+  "/home/mginhson/Desktop/EDA/MightyMouse/Main.cpp" "CMakeFiles/main.dir/Main.cpp.o" "gcc" "CMakeFiles/main.dir/Main.cpp.o.d"
   )
 
 # Targets to which this target links.

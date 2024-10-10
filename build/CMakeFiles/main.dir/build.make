@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/mginhson/Desktop/EDA/mms-cpp
+CMAKE_SOURCE_DIR = /home/mginhson/Desktop/EDA/MightyMouse
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/mginhson/Desktop/EDA/mms-cpp/build
+CMAKE_BINARY_DIR = /home/mginhson/Desktop/EDA/MightyMouse/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/main.dir/depend.make
@@ -72,30 +72,30 @@ include CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/Main.cpp.o: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/Main.cpp.o: ../Main.cpp
 CMakeFiles/main.dir/Main.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mginhson/Desktop/EDA/mms-cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/main.dir/Main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/Main.cpp.o -MF CMakeFiles/main.dir/Main.cpp.o.d -o CMakeFiles/main.dir/Main.cpp.o -c /home/mginhson/Desktop/EDA/mms-cpp/Main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mginhson/Desktop/EDA/MightyMouse/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/main.dir/Main.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/Main.cpp.o -MF CMakeFiles/main.dir/Main.cpp.o.d -o CMakeFiles/main.dir/Main.cpp.o -c /home/mginhson/Desktop/EDA/MightyMouse/Main.cpp
 
 CMakeFiles/main.dir/Main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/main.dir/Main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mginhson/Desktop/EDA/mms-cpp/Main.cpp > CMakeFiles/main.dir/Main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mginhson/Desktop/EDA/MightyMouse/Main.cpp > CMakeFiles/main.dir/Main.cpp.i
 
 CMakeFiles/main.dir/Main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/main.dir/Main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mginhson/Desktop/EDA/mms-cpp/Main.cpp -o CMakeFiles/main.dir/Main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mginhson/Desktop/EDA/MightyMouse/Main.cpp -o CMakeFiles/main.dir/Main.cpp.s
 
 CMakeFiles/main.dir/API.cpp.o: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/API.cpp.o: ../API.cpp
 CMakeFiles/main.dir/API.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mginhson/Desktop/EDA/mms-cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/main.dir/API.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/API.cpp.o -MF CMakeFiles/main.dir/API.cpp.o.d -o CMakeFiles/main.dir/API.cpp.o -c /home/mginhson/Desktop/EDA/mms-cpp/API.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mginhson/Desktop/EDA/MightyMouse/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/main.dir/API.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/API.cpp.o -MF CMakeFiles/main.dir/API.cpp.o.d -o CMakeFiles/main.dir/API.cpp.o -c /home/mginhson/Desktop/EDA/MightyMouse/API.cpp
 
 CMakeFiles/main.dir/API.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/main.dir/API.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mginhson/Desktop/EDA/mms-cpp/API.cpp > CMakeFiles/main.dir/API.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mginhson/Desktop/EDA/MightyMouse/API.cpp > CMakeFiles/main.dir/API.cpp.i
 
 CMakeFiles/main.dir/API.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/main.dir/API.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mginhson/Desktop/EDA/mms-cpp/API.cpp -o CMakeFiles/main.dir/API.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mginhson/Desktop/EDA/MightyMouse/API.cpp -o CMakeFiles/main.dir/API.cpp.s
 
 # Object files for target main
 main_OBJECTS = \
@@ -109,7 +109,7 @@ main: CMakeFiles/main.dir/Main.cpp.o
 main: CMakeFiles/main.dir/API.cpp.o
 main: CMakeFiles/main.dir/build.make
 main: CMakeFiles/main.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/mginhson/Desktop/EDA/mms-cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/mginhson/Desktop/EDA/MightyMouse/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable main"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/main.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -121,6 +121,6 @@ CMakeFiles/main.dir/clean:
 .PHONY : CMakeFiles/main.dir/clean
 
 CMakeFiles/main.dir/depend:
-	cd /home/mginhson/Desktop/EDA/mms-cpp/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/mginhson/Desktop/EDA/mms-cpp /home/mginhson/Desktop/EDA/mms-cpp /home/mginhson/Desktop/EDA/mms-cpp/build /home/mginhson/Desktop/EDA/mms-cpp/build /home/mginhson/Desktop/EDA/mms-cpp/build/CMakeFiles/main.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/mginhson/Desktop/EDA/MightyMouse/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/mginhson/Desktop/EDA/MightyMouse /home/mginhson/Desktop/EDA/MightyMouse /home/mginhson/Desktop/EDA/MightyMouse/build /home/mginhson/Desktop/EDA/MightyMouse/build /home/mginhson/Desktop/EDA/MightyMouse/build/CMakeFiles/main.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/main.dir/depend
 

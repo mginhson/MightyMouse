@@ -1,12 +1,12 @@
 [
 {
-  "directory": "/home/mginhson/Desktop/EDA/mms-cpp/build",
-  "command": "/usr/bin/c++   -g -std=gnu++11 -o CMakeFiles/main.dir/Main.cpp.o -c /home/mginhson/Desktop/EDA/mms-cpp/Main.cpp",
-  "file": "/home/mginhson/Desktop/EDA/mms-cpp/Main.cpp"
+  "directory": "/home/mginhson/Desktop/EDA/MightyMouse/build",
+  "command": "/usr/bin/c++   -g -std=gnu++11 -o CMakeFiles/main.dir/Main.cpp.o -c /home/mginhson/Desktop/EDA/MightyMouse/Main.cpp",
+  "file": "/home/mginhson/Desktop/EDA/MightyMouse/Main.cpp"
 },
 {
-  "directory": "/home/mginhson/Desktop/EDA/mms-cpp/build",
-  "command": "/usr/bin/c++   -g -std=gnu++11 -o CMakeFiles/main.dir/API.cpp.o -c /home/mginhson/Desktop/EDA/mms-cpp/API.cpp",
-  "file": "/home/mginhson/Desktop/EDA/mms-cpp/API.cpp"
+  "directory": "/home/mginhson/Desktop/EDA/MightyMouse/build",
+  "command": "/usr/bin/c++   -g -std=gnu++11 -o CMakeFiles/main.dir/API.cpp.o -c /home/mginhson/Desktop/EDA/MightyMouse/API.cpp",
+  "file": "/home/mginhson/Desktop/EDA/MightyMouse/API.cpp"
 }
 ]

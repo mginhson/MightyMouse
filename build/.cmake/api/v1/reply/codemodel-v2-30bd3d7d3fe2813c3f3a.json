@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/home/mginhson/Desktop/EDA/mms-cpp/build",
-		"source" : "/home/mginhson/Desktop/EDA/mms-cpp"
+		"build" : "/home/mginhson/Desktop/EDA/MightyMouse/build",
+		"source" : "/home/mginhson/Desktop/EDA/MightyMouse"
 	},
 	"version" : 
 	{

@@ -12,6 +12,8 @@ typedef enum{left,right,forward} Movement_t;
 
 typedef std::vector<Movement_t> MovementStack_t;
 
+
+
 void goBackToBeginning (MovementStack_t& movementStack);
 
 int main(int argc, char* argv[]) {
@@ -58,7 +60,7 @@ void goBackToBeginning (MovementStack_t& movementStack)
 
     API::turnLeft();
     API::turnLeft();
-    
+
     while ( movementStack.size() > 0 )
     {
             
@@ -82,7 +84,7 @@ void goBackToBeginning (MovementStack_t& movementStack)
             default:
                 break;
         }
-        log("flag");
+
         movementStack.pop_back();
     }
 }
