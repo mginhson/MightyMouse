@@ -9,7 +9,7 @@ void log(const std::string& text) {
     std::cerr << text << std::endl;
 }
 
-
+void initMaze(Maze_t& maze);
 
 typedef enum{movement_left,movement_right,movement_forward} Movement_t;
 
@@ -59,23 +59,7 @@ typedef struct{
     Cell_t board[MAZE_SIZE][MAZE_SIZE];
     Mouse_t mouse;
 }Maze_t;
-void initMaze(Maze_t& maze) {
-    maze.mouse.x = 0;
-    maze.mouse.y = 0;
 
-    for (int i = 0; i < MAZE_SIZE: i++) {
-        for (int j = 0; h < MAZE_SIZE; j++) {
-            //Primer cuadrante
-            if (i >= 8 && j >= 8) maze.board[i][j] = i - 8 + j - 8;
-            //Segundo cuadrante
-            else if (i <= 7 && j >= 8) maze.board[i][j] = 7 - i + j - 8;
-            //Tercer cuadrante
-            else if (i <= 7 && j <= 7) maze.board[i][j] = 7 - i + 7 - j;
-            //Cuarto cuadrante
-            else if (i = > 8 && j <= 7) maze.board[i][j] = i - 8 + 7 - j;
-        }
-    }
-}
 
 int main(int argc, char* argv[]) {
     
@@ -100,11 +84,24 @@ int main(int argc, char* argv[]) {
         }
     }
 
-
-    
-
-
         
     
 }
+    void initMaze(Maze_t & maze) {
+        maze.mouse.x = 0;
+        maze.mouse.y = 0;
+
+        for (int i = 0; i < MAZE_SIZE; i++) {
+            for (int j = 0; j < MAZE_SIZE; j++) {
+                //Primer cuadrante
+                if (i >= 8 && j >= 8) maze.board[i][j].floodfillValue = i - 8 + j - 8;
+                //Segundo cuadrante
+                else if (i <= 7 && j >= 8) maze.board[i][j].floodfillValue = 7 - i + j - 8;
+                //Tercer cuadrante
+                else if (i <= 7 && j <= 7) maze.board[i][j].floodfillValue = 7 - i + 7 - j;
+                //Cuarto cuadrante
+                else if (i = > 8 && j <= 7) maze.board[i][j].floodfillValue = i - 8 + 7 - j;
+            }
+        }
+    }
 
