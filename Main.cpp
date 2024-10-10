@@ -59,6 +59,23 @@ typedef struct{
     Cell_t board[MAZE_SIZE][MAZE_SIZE];
     Mouse_t mouse;
 }Maze_t;
+void initMaze(Maze_t& maze) {
+    maze.mouse.x = 0;
+    maze.mouse.y = 0;
+
+    for (int i = 0; i < MAZE_SIZE: i++) {
+        for (int j = 0; h < MAZE_SIZE; j++) {
+            //Primer cuadrante
+            if (i >= 8 && j >= 8) maze.board[i][j] = i - 8 + j - 8;
+            //Segundo cuadrante
+            else if (i <= 7 && j >= 8) maze.board[i][j] = 7 - i + j - 8;
+            //Tercer cuadrante
+            else if (i <= 7 && j <= 7) maze.board[i][j] = 7 - i + 7 - j;
+            //Cuarto cuadrante
+            else if (i = > 8 && j <= 7) maze.board[i][j] = i - 8 + 7 - j;
+        }
+    }
+}
 
 int main(int argc, char* argv[]) {
     
