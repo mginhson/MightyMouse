@@ -66,12 +66,9 @@ typedef struct{
     Mouse_t mouse;
 
 }Maze_t;
+
 void initMaze(Maze_t& maze);
 void floodFill(Maze_t& maze);
-int main(int argc, char* argv[]) {
-    
-    log("Running...");
-
 void initMaze (Maze_t& maze);
 bool hasFinished (Maze_t& maze);
 void updateCell (Maze_t& maze);
