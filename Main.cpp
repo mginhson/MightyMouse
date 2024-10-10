@@ -15,22 +15,21 @@ typedef enum{movement_left,movement_right,movement_forward} Movement_t;
 
 typedef std::vector<Movement_t> MovementStack_t;
 
-enum orientations {
+typedef enum {
     up,
     right,
     down,
     left
-};
+}Orientation_t;
 
 typedef struct{
     int x;
     int y;
-    int Orient;
+    Orientation_t orientation;
 }Mouse_t;
 
 
-void goBackToBeginning (MovementStack_t& movementStack);
-bool hasFinished (int x, int y);
+
 
 typedef enum{
     leftWall, 
@@ -61,17 +60,6 @@ typedef struct{
     Mouse_t mouse;
 }Maze_t;
 
-void initMaze(Maze_t& maze) {
-    maze.mouse.x = 0;
-    maze.mouse.y = 0;
-    maze.mouse.Orient = up;
-    for (int i = 0; i < MAZE_SIZE; i++) {
-        for (int j = 0; j < MAZE_SIZE; j++) {
-            maze[]
-        }
-    }
-}
-
 int main(int argc, char* argv[]) {
     
     log("Running...");
@@ -89,57 +77,17 @@ int main(int argc, char* argv[]) {
                 chain.push_back(movement_left);
             }
 
-            while (API::wallFront()) 
-            {
-                API::turnRight();
-                chain.push_back(movement_right);
-            }
-
-            API::moveForward();
-            chain.push_back(movement_forward);
-        }
-
-        goBackToBeginning(chain);
-        
-    }
-}
-
-
-void goBackToBeginning (MovementStack_t& movementStack)
-{
-    
-    /**
-     * We need to retrace back our steps, the opposite way. So, we first
-     * turn around, then read the chain sequence backwards.
-     */
-
-    API::turnLeft();
-    API::turnLeft();
-
-    while ( movementStack.size() > 0 )
-    {
-            
-        switch (movementStack.back())
+        while (!hasFinished(maze))
         {
-            case movement_left:
-            {
-                API::turnRight();
-            }break;
 
-            case movement_right:
-            {
-                API::turnLeft();
-            }break;
-
-            case movement_forward:
-            {
-                API::moveForward();
-            }break;
-            
-            default:
-                break;
         }
-
-        movementStack.pop_back();
     }
+
+
+    
+
+
+        
+    
 }
+
