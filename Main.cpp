@@ -49,11 +49,13 @@ typedef enum{
     emptyWall,
     CompleteWall
 }CellKind_t;
+
 #define MAZE_SIZE 16
+
 typedef struct{
     unsigned int floodfillValue;
     CellKind_t cellKind;
-    
+    bool mark;
 }Cell_t;
 
 typedef struct{
@@ -66,26 +68,9 @@ void initMaze(Maze_t& maze);
 int main(int argc, char* argv[]) {
     
     log("Running...");
-    
-    MovementStack_t chain;
-    Mouse_t mouse;
-    while (true) {
-        unsigned int x;
-        
-        for (x = 0; x < 30; x++)
-        {
-            if (!API::wallLeft()) 
-            {
-                API::turnLeft();
-                chain.push_back(movement_left);
-            }
 
-        while (!hasFinished(maze))
-        {
-            /**
-             * First, we analyze the cell. If it isn't the wallEmpty kind,
-             * it has already been analyzed.
-             */
+  
+    
 
 
             unsigned char wallAnalyzer = 0b0000;
@@ -130,3 +115,50 @@ void initMaze(Maze_t & maze) {
     }
 }
 
+/**
+ * @brief Updates the cell if needed 
+ */
+void updateCell (Maze_t& maze)
+{
+    //Just in case
+    if (maze.board[maze.mouse.x][maze.mouse.y].mark == 1)
+        return;
+    
+    maze.board[maze.mouse.x][maze.mouse.y].mark = 0;
+
+    /**
+     * bitwise, from left to right
+     * left, front, right
+     * 
+     */
+    unsigned char walls = 0b000;
+    if (API::wallLeft()) walls |= 0b100;
+    if (API::wallFront()) walls |= 0b010;
+    if (API::wallRight()) walls |= 0b001;
+
+    switch (maze.mouse.orientation)
+    {
+        case left:
+        {
+            var |= 
+        }break;
+
+        case right:
+        {
+            
+        }break;
+
+        case up:
+        {
+
+        }break;
+
+        case down:
+        {
+
+        }break;
+
+    }
+
+
+}
