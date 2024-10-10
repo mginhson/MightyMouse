@@ -28,28 +28,6 @@ typedef struct{
     Orientation_t orientation;
 }Mouse_t;
 
-
-
-
-typedef enum{
-    leftWall, 
-    upWall,
-    rightWall,
-    downWall,
-    leftDownWall,
-    rightDownWall,
-    rightUpWall,
-    leftUpWall,
-    leftRigthWall,
-    upDownWall,
-    leftRightDownWall,
-    rigthUpDownWall,
-    leftRigthUpWall,
-    leftUpDownWall,
-    emptyWall,
-    CompleteWall
-}CellKind_t;
-
 #define MAZE_SIZE 16
 
 typedef struct{
@@ -277,14 +255,6 @@ void updateCell (Maze_t& maze)
 
 void floodFill(Maze_t& maze) {
     // Chequeo el valor de floodfill de las direcciones alrededor del mouse
-    std::queue<Cell_t> cellQueue;
-    cellQueue.push(maze.board[7][7]);
-    cellQueue.push(maze.board[7][8]);
-    cellQueue.push(maze.board[8][7]);
-    cellQueue.push(maze.board[8][8]);
-    int mouseX = maze.mouse.x;
-    int mouseY = maze.mouse.y;
-    // Pared de frente
 
     std::queue<Cell_t*> cellQueue;
     // Se cargan las primeras 4 direcciones de destino
