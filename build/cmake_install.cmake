@@ -1,4 +1,4 @@
-# Install script for directory: /home/mginhson/Desktop/EDA/mms-cpp
+# Install script for directory: /home/mginhson/Desktop/EDA/MightyMouse
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/mginhson/Desktop/EDA/mms-cpp/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/mginhson/Desktop/EDA/MightyMouse/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

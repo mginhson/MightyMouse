@@ -1,5 +1,6 @@
-CMakeFiles/main.dir/API.cpp.o: /home/mginhson/Desktop/EDA/mms-cpp/API.cpp \
- /usr/include/stdc-predef.h /home/mginhson/Desktop/EDA/mms-cpp/API.h \
+CMakeFiles/main.dir/API.cpp.o: \
+ /home/mginhson/Desktop/EDA/MightyMouse/API.cpp \
+ /usr/include/stdc-predef.h /home/mginhson/Desktop/EDA/MightyMouse/API.h \
  /usr/include/c++/11/string \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
