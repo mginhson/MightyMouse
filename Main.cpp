@@ -60,6 +60,7 @@ typedef struct{
     Cell_t board[16][16];
 }Maze_t;
 
+
 int main(int argc, char* argv[]) {
     
     log("Running...");
