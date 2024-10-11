@@ -63,7 +63,41 @@ int main(int argc, char* argv[])
     while(true)
     {
         updateCell(maze);
-        while(API::wallFront())
+        //floodFill(maze);
+        Orientation_t bestOrientation = maze.mouse.orientation;
+        unsigned int value = -1; //max value
+        unsigned int i;
+        
+        if (maze.board[maze.mouse.x][maze.mouse.y].walls[up] == 0 ||
+            maze.board[maze.mouse.x][maze.mouse.y].floodfillValue < value)
+        {
+            value = maze.board[maze.mouse.x][maze.mouse.y].floodfillValue;
+            bestOrientation = up;
+        }
+        
+        if (maze.board[maze.mouse.x][maze.mouse.y].walls[down] == 0 ||
+            maze.board[maze.mouse.x][maze.mouse.y].floodfillValue < value)
+        {
+            value = maze.board[maze.mouse.x][maze.mouse.y].floodfillValue;
+            bestOrientation = down;
+        }
+
+        if (maze.board[maze.mouse.x][maze.mouse.y].walls[left] == 0 ||
+            maze.board[maze.mouse.x][maze.mouse.y].floodfillValue < value)
+        {
+            value = maze.board[maze.mouse.x][maze.mouse.y].floodfillValue;
+            bestOrientation = left;
+        }
+
+        if (maze.board[maze.mouse.x][maze.mouse.y].walls[right] == 0 ||
+            maze.board[maze.mouse.x][maze.mouse.y].floodfillValue < value)
+        {
+            value = maze.board[maze.mouse.x][maze.mouse.y].floodfillValue;
+            bestOrientation = right;
+        }
+
+
+        while(maze.mouse.orientation != bestOrientation)
         {
             API::turnRight();
             switch(maze.mouse.orientation)
@@ -109,11 +143,7 @@ int main(int argc, char* argv[])
                 //Cuarto cuadrante
                 else if (i >= 8 && j <= 7) maze.board[i][j].floodfillValue = i - 8 + 7 - j;
 
-<<<<<<< HEAD
-           
-=======
-            
->>>>>>> 718341827bb382c028fd2dbe35fe121873f97509
+
             maze.board[i][j].mark = false;
             maze.board[i][j].floodfillMark = false;
             maze.board[i][j].x = j;
