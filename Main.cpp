@@ -72,9 +72,9 @@ int main(int argc, char* argv[])
     {
         switch(triesLeft--)
         {
-            case 3:
+            case 1:
             {
-               secondRun(maze); 
+               thirdRun(maze); 
             }break;
 
             case 2:
@@ -82,9 +82,9 @@ int main(int argc, char* argv[])
                 secondRun(maze);
             }break;
 
-            case 1:
+            case 3:
             {
-                secondRun(maze);
+                firstRun(maze);
             }break;
 
             default:
@@ -138,7 +138,9 @@ int main(int argc, char* argv[])
 
 void firstRun(Maze_t& maze)
 {
-    while (!hasFinished(maze)) 
+    
+
+    while (!hasFinished(maze) && maze.board[maze.mouse.x][maze.mouse.y].mark == 0) 
     {
         updateCell(maze);
         if (!API::wallLeft()) {
@@ -150,6 +152,56 @@ void firstRun(Maze_t& maze)
         
         mouseForward(maze);
     }
+    
+    while(!hasFinished(maze))
+    {
+        updateCell(maze);
+        floodFill(maze);
+        displayFloodfill(maze);
+        Orientation_t bestOrientation = maze.mouse.orientation;
+        unsigned int value = ~0; //max value
+        unsigned int i;
+        
+        if (maze.board[maze.mouse.x][maze.mouse.y].walls[up] == 0 &&
+            maze.board[maze.mouse.x][maze.mouse.y + 1].floodfillValue < value)
+        {
+            value = maze.board[maze.mouse.x][maze.mouse.y + 1].floodfillValue;
+            bestOrientation = up;
+            log("Updated best orientation to up");
+        }
+        
+        if (maze.board[maze.mouse.x][maze.mouse.y].walls[down] == 0 &&
+            maze.board[maze.mouse.x][maze.mouse.y - 1].floodfillValue < value)
+        {
+            value = maze.board[maze.mouse.x][maze.mouse.y - 1].floodfillValue;
+            bestOrientation = down;
+            log("Updated best orientation to down");
+        }
+
+        if (maze.board[maze.mouse.x][maze.mouse.y].walls[left] == 0 &&
+            maze.board[maze.mouse.x - 1][maze.mouse.y].floodfillValue < value)
+        {
+            value = maze.board[maze.mouse.x - 1][maze.mouse.y].floodfillValue;
+            bestOrientation = left;
+            log("Updated best orientation");
+        }
+
+        if (maze.board[maze.mouse.x][maze.mouse.y].walls[right] == 0 &&
+            maze.board[maze.mouse.x + 1][maze.mouse.y].floodfillValue < value)
+        {
+            value = maze.board[maze.mouse.x + 1][maze.mouse.y].floodfillValue;
+            bestOrientation = right;
+            log("Updated best orientation");
+        }
+
+
+        while(maze.mouse.orientation != bestOrientation)
+            mouseRight(maze);
+
+        mouseForward(maze);
+        
+    }
+
     
     goBackToBeginning(maze);
     
