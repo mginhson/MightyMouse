@@ -409,6 +409,7 @@ void floodFill(Maze_t& maze) {
     while (!cellQueue.empty()) {
         // Obtenemos el tama�o de la lista
         int queueSize = cellQueue.size();
+        log(std::to_string(queueSize));
         int i;
         // Itero sobre todos los elementos cargados de la lista
         for (i = 0; i < queueSize; i++) { 
@@ -422,7 +423,7 @@ void floodFill(Maze_t& maze) {
                 maze.board[pCell->x + 1][pCell->y].floodfillMark = true;
                 maze.board[pCell->x + 1][pCell->y].floodfillValue = floodfillAsignmentValue;
             }
-            if (pCell->x - 1 > 0 && !maze.board[pCell->x - 1][pCell->y].floodfillMark && !(pCell->walls)[left]) {
+            if (pCell->x - 1 > 0 && !maze.board[pCell->x - 1][pCell->y].floodfillMark && !maze.board[pCell->x - 1][pCell->y].walls[right]) {
                 cellQueue.push(&(maze.board[pCell->x - 1][pCell->y]));
                 maze.board[pCell->x - 1][pCell->y].floodfillMark = true;
                 maze.board[pCell->x - 1][pCell->y].floodfillValue = floodfillAsignmentValue;
