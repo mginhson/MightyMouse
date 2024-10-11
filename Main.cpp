@@ -200,26 +200,9 @@ void secondRun(Maze_t& maze)
 
 
         while(maze.mouse.orientation != bestOrientation)
-        {
-            API::turnRight();
-            switch(maze.mouse.orientation)
-            {
-                case up: maze.mouse.orientation = right; break;
-                case right: maze.mouse.orientation = down; break;
-                case down: maze.mouse.orientation = left; break;
-                case left: maze.mouse.orientation = up; break;
-                default: break;
-            }
-        }
+            mouseRight(maze);
 
-        switch(maze.mouse.orientation)
-        {
-            case up: maze.mouse.y += 1; break;
-            case down: maze.mouse.y -= 1; break;
-            case right: maze.mouse.x +=1; break;
-            case left: maze.mouse.x -= 1; break;
-        }
-        API::moveForward();
+        mouseForward(maze);
         
     }
 
