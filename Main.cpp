@@ -127,8 +127,7 @@ int main(int argc, char* argv[])
                 maze.board[i][j].mark = 0;
             }
         }
-        maze.board[7][8].walls[up] = 1;
-        maze.board[7][9].walls[down] = 1;
+        
         maze.board[0][0].walls[down] = 1;
         API::setWall(0,0,'s');
         
@@ -165,7 +164,7 @@ void secondRun(Maze_t& maze)
         
         floodFill(maze);
         displayFloodfill(maze);
-        setAllWalls(maze);
+        
         Orientation_t bestOrientation = maze.mouse.orientation;
         unsigned int value = ~0; //max value
         unsigned int i;
