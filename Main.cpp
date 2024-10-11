@@ -64,6 +64,7 @@ int main(int argc, char* argv[])
     {
         updateCell(maze);
         displayFloodfill(maze);
+        floodFill(maze);
         while(API::wallFront())
         {
             API::turnRight();
@@ -265,11 +266,11 @@ void floodFill(Maze_t& maze) {
 
     int floodfillAsignmentValue = 0;
     while (!cellQueue.empty()) {
-
+        int queueSize = cellQueue.size();
         int i;
-        for (i = 0; i < cellQueue.size(); i++) { 
+        for (i = 0; i < queueSize; i++) { 
             Cell_t* pCell = cellQueue.front();
-            pCell->mark = true;
+            pCell->floodfillMark = true
             // Al recorrer siempre alrededor, se llega siempre de la manera mas corta al camino
             if (pCell->x + 1 < MAZE_SIZE && !maze.board[pCell->x + 1][pCell->y].mark && (pCell->walls)[right]) {
                 cellQueue.push(&(maze.board[pCell->x + 1][pCell->y]));
@@ -291,8 +292,15 @@ void floodFill(Maze_t& maze) {
                 maze.board[pCell->x][pCell->y - 1].floodfillMark = true;
                 maze.board[pCell->x][pCell->y - 1].floodfillValue = floodfillAsignmentValue;
             }
+            cellQueue.pop();
         }
         floodfillAsignmentValue++;
+    }
+    for (int i = 0; i < MAZE_SIZE; i++)
+    {
+        for (int j = 0; j < MAZE_SIZE; j++) {
+            maze.board[i][j].floodfillMark = false;
+        }
     }
 }
 void displayFloodfill(Maze_t& maze) {
