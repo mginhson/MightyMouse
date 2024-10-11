@@ -295,8 +295,19 @@ void secondRun(Maze_t& maze)
                 default: break;
             }
         }
+
+        switch(maze.mouse.orientation)
+        {
+            case up: maze.mouse.y += 1; break;
+            case down: maze.mouse.y -= 1; break;
+            case right: maze.mouse.x +=1; break;
+            case left: maze.mouse.x -= 1; break;
+        }
+        API::moveForward();
         
     }
+
+    goBackToBeginning(maze);
 }
 
 void thirdRun(Maze_t& maze)
