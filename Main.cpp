@@ -69,7 +69,7 @@ int main(int argc, char* argv[])
         {
             case 3:
             {
-               firstRun(maze); 
+               secondRun(maze); 
             }break;
 
             case 2:
@@ -79,7 +79,7 @@ int main(int argc, char* argv[])
 
             case 1:
             {
-                thirdRun(maze);
+                secondRun(maze);
             }break;
 
             default:
