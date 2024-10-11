@@ -276,8 +276,8 @@ void updateCell (Maze_t& maze)
          */
         case up:
         {
-             
-            maze.board[maze.mouse.x][maze.mouse.y].walls[down] = 0;
+            if (maze.mouse.x != 0 || maze.mouse.y != 0)
+                maze.board[maze.mouse.x][maze.mouse.y].walls[down] = 0;
 
             if (API::wallFront())     
                 maze.board[maze.mouse.x][maze.mouse.y].walls[up] = 1;
