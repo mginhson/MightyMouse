@@ -63,9 +63,46 @@ int main(int argc, char* argv[])
     while(true)
     {
         updateCell(maze);
-        displayFloodfill(maze);
         floodFill(maze);
-        while(API::wallFront())
+        displayFloodfill(maze);
+        Orientation_t bestOrientation = maze.mouse.orientation;
+        unsigned int value = ~0; //max value
+        unsigned int i;
+        
+        if (maze.board[maze.mouse.x][maze.mouse.y].walls[up] == 0 &&
+            maze.board[maze.mouse.x][maze.mouse.y].floodfillValue < value)
+        {
+            value = maze.board[maze.mouse.x][maze.mouse.y].floodfillValue;
+            bestOrientation = up;
+            log("Updated best orientation");
+        }
+        
+        if (maze.board[maze.mouse.x][maze.mouse.y].walls[down] == 0 &&
+            maze.board[maze.mouse.x][maze.mouse.y].floodfillValue < value)
+        {
+            value = maze.board[maze.mouse.x][maze.mouse.y].floodfillValue;
+            bestOrientation = down;
+            log("Updated best orientation");
+        }
+
+        if (maze.board[maze.mouse.x][maze.mouse.y].walls[left] == 0 &&
+            maze.board[maze.mouse.x][maze.mouse.y].floodfillValue < value)
+        {
+            value = maze.board[maze.mouse.x][maze.mouse.y].floodfillValue;
+            bestOrientation = left;
+            log("Updated best orientation");
+        }
+
+        if (maze.board[maze.mouse.x][maze.mouse.y].walls[right] == 0 &&
+            maze.board[maze.mouse.x][maze.mouse.y].floodfillValue < value)
+        {
+            value = maze.board[maze.mouse.x][maze.mouse.y].floodfillValue;
+            bestOrientation = right;
+            log("Updated best orientation");
+        }
+
+
+        while(maze.mouse.orientation != bestOrientation)
         {
             API::turnRight();
             switch(maze.mouse.orientation)
@@ -110,7 +147,7 @@ int main(int argc, char* argv[])
                 //Cuarto cuadrante
                 else if (i >= 8 && j <= 7) maze.board[i][j].floodfillValue = i - 8 + 7 - j;
 
-            
+
             maze.board[i][j].mark = false;
             maze.board[i][j].floodfillMark = false;
             maze.board[i][j].x = j;
@@ -123,6 +160,11 @@ int main(int argc, char* argv[])
                 maze.board[i][j].mark = 0;
             }
         }
+
+        maze.board[0][0].walls[down] = 1;
+        API::setWall(0,0,'s');
+        
+
     }
 
 
@@ -264,30 +306,45 @@ void floodFill(Maze_t& maze) {
     cellQueue.push(&(maze.board[8][7]));
     cellQueue.push(&(maze.board[8][8]));
 
-    int floodfillAsignmentValue = 0;
+    (maze.board[7][7]).floodfillValue = 0;
+    (maze.board[7][8]).floodfillValue = 0;
+    (maze.board[8][7]).floodfillValue = 0;
+    (maze.board[8][8]).floodfillValue = 0;
+
+    (maze.board[7][7]).floodfillMark = true;
+    (maze.board[7][8]).floodfillMark = true;
+    (maze.board[8][7]).floodfillMark = true;
+    (maze.board[8][8]).floodfillMark = true;
+    
+    int floodfillAsignmentValue = 1;
+    // Mientras que la lista este vacia
     while (!cellQueue.empty()) {
+        // Obtenemos el tamaño de la lista
         int queueSize = cellQueue.size();
         int i;
+        // Itero sobre todos los elementos cargados de la lista
         for (i = 0; i < queueSize; i++) { 
+            // Obtengo el primer elemento de la cola y lo marco como visto
+            //log("Bucleando");
             Cell_t* pCell = cellQueue.front();
-            pCell->floodfillMark = true
+            //pCell->floodfillMark = true;
             // Al recorrer siempre alrededor, se llega siempre de la manera mas corta al camino
-            if (pCell->x + 1 < MAZE_SIZE && !maze.board[pCell->x + 1][pCell->y].mark && (pCell->walls)[right]) {
+            if (pCell->x + 1 < MAZE_SIZE && !maze.board[pCell->x + 1][pCell->y].floodfillMark && !(pCell->walls)[right]) {
                 cellQueue.push(&(maze.board[pCell->x + 1][pCell->y]));
                 maze.board[pCell->x + 1][pCell->y].floodfillMark = true;
                 maze.board[pCell->x + 1][pCell->y].floodfillValue = floodfillAsignmentValue;
             }
-            if (pCell->x - 1 > 0 && !maze.board[pCell->x - 1][pCell->y].mark && (pCell->walls)[left]) {
+            if (pCell->x - 1 > 0 && !maze.board[pCell->x - 1][pCell->y].floodfillMark && !(pCell->walls)[left]) {
                 cellQueue.push(&(maze.board[pCell->x - 1][pCell->y]));
                 maze.board[pCell->x - 1][pCell->y].floodfillMark = true;
                 maze.board[pCell->x - 1][pCell->y].floodfillValue = floodfillAsignmentValue;
             }
-            if (pCell->y + 1 < MAZE_SIZE && !maze.board[pCell->x][pCell->y + 1].mark && (pCell->walls)[up]) {
+            if (pCell->y + 1 < MAZE_SIZE && !maze.board[pCell->x][pCell->y + 1].floodfillMark && !(pCell->walls)[up]) {
                 cellQueue.push(&(maze.board[pCell->x][pCell->y + 1]));
                 maze.board[pCell->x][pCell->y + 1].floodfillMark = true;
                 maze.board[pCell->x][pCell->y + 1].floodfillValue = floodfillAsignmentValue;
             }
-            if (pCell->y - 1 > 0 && maze.board[pCell->x][pCell->y - 1].mark && (pCell->walls[down])) {
+            if (pCell->y - 1 > 0 && !maze.board[pCell->x][pCell->y - 1].floodfillMark && !(pCell->walls[down])) {
                 cellQueue.push(&(maze.board[pCell->x][pCell->y - 1]));
                 maze.board[pCell->x][pCell->y - 1].floodfillMark = true;
                 maze.board[pCell->x][pCell->y - 1].floodfillValue = floodfillAsignmentValue;
