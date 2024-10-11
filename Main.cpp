@@ -49,7 +49,7 @@ void initMaze(Maze_t& maze);
 void floodFill(Maze_t& maze);
 bool hasFinished (Maze_t& maze);
 void updateCell (Maze_t& maze);
-
+void displayFloodfill(Maze_t& maze);
 
 int main(int argc, char* argv[]) 
 {
@@ -63,6 +63,7 @@ int main(int argc, char* argv[])
     while(true)
     {
         updateCell(maze);
+        displayFloodfill(maze);
         while(API::wallFront())
         {
             API::turnRight();
@@ -294,3 +295,12 @@ void floodFill(Maze_t& maze) {
         floodfillAsignmentValue++;
     }
 }
+void displayFloodfill(Maze_t& maze) {
+    int i;
+    int j;
+    for (i = 0; i < MAZE_SIZE; i++) {
+        for (j = 0; j < MAZE_SIZE; j++) {
+            API::setText(i, j, std::to_string(maze.board[i][j].floodfillValue));
+        }
+    }
+}   
