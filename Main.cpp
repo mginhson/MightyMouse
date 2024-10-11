@@ -141,26 +141,10 @@ void firstRun(Maze_t& maze)
     {
         updateCell(maze);
         if (!API::wallLeft()) {
-            API::turnLeft();
-            switch(maze.mouse.orientation)
-            {
-                case up: maze.mouse.orientation = left; break;
-                case right: maze.mouse.orientation = up; break;
-                case down: maze.mouse.orientation = right; break;
-                case left: maze.mouse.orientation = down; break;
-                default: break;
-            }
+            mouseLeft(maze);
         }
         while (API::wallFront()) {
-            API::turnRight();
-            switch(maze.mouse.orientation)
-            {
-                case up: maze.mouse.orientation = right; break;
-                case right: maze.mouse.orientation = down; break;
-                case down: maze.mouse.orientation = left; break;
-                case left: maze.mouse.orientation = up; break;
-                default: break;
-            }
+            mouseRight(maze);
         }
         
         mouseForward(maze);
@@ -523,9 +507,29 @@ void mouseForward (Maze_t& maze)
 
 void mouseLeft (Maze_t& maze)
 {
-
+    API::turnLeft();
+    switch(maze.mouse.orientation)
+    {
+        case up: maze.mouse.orientation = left; break;
+        case right: maze.mouse.orientation = up; break;
+        case down: maze.mouse.orientation = right; break;
+        case left: maze.mouse.orientation = down; break;
+        default: break;
+    }
 }
 
+void mouseRight (Maze_t& maze)
+{
+    API::turnRight();
+    switch(maze.mouse.orientation)
+    {
+        case up: maze.mouse.orientation = right; break;
+        case right: maze.mouse.orientation = down; break;
+        case down: maze.mouse.orientation = left; break;
+        case left: maze.mouse.orientation = up; break;
+        default: break;
+    }
+}
 
 bool hasFinished(Maze_t& maze)
 {
