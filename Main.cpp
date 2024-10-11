@@ -237,7 +237,62 @@ void firstRun(Maze_t& maze)
 
 void secondRun(Maze_t& maze)
 {
+    while(!hasFinished(maze))
+    {
+        updateCell(maze);
+        floodFill(maze);
+        displayFloodfill(maze);
+        Orientation_t bestOrientation = maze.mouse.orientation;
+        unsigned int value = ~0; //max value
+        unsigned int i;
+        
+        if (maze.board[maze.mouse.x][maze.mouse.y].walls[up] == 0 &&
+            maze.board[maze.mouse.x][maze.mouse.y].floodfillValue < value)
+        {
+            value = maze.board[maze.mouse.x][maze.mouse.y].floodfillValue;
+            bestOrientation = up;
+            log("Updated best orientation");
+        }
+        
+        if (maze.board[maze.mouse.x][maze.mouse.y].walls[down] == 0 &&
+            maze.board[maze.mouse.x][maze.mouse.y].floodfillValue < value)
+        {
+            value = maze.board[maze.mouse.x][maze.mouse.y].floodfillValue;
+            bestOrientation = down;
+            log("Updated best orientation");
+        }
 
+        if (maze.board[maze.mouse.x][maze.mouse.y].walls[left] == 0 &&
+            maze.board[maze.mouse.x][maze.mouse.y].floodfillValue < value)
+        {
+            value = maze.board[maze.mouse.x][maze.mouse.y].floodfillValue;
+            bestOrientation = left;
+            log("Updated best orientation");
+        }
+
+        if (maze.board[maze.mouse.x][maze.mouse.y].walls[right] == 0 &&
+            maze.board[maze.mouse.x][maze.mouse.y].floodfillValue < value)
+        {
+            value = maze.board[maze.mouse.x][maze.mouse.y].floodfillValue;
+            bestOrientation = right;
+            log("Updated best orientation");
+        }
+
+
+        while(maze.mouse.orientation != bestOrientation)
+        {
+            API::turnRight();
+            switch(maze.mouse.orientation)
+            {
+                case up: maze.mouse.orientation = right; break;
+                case right: maze.mouse.orientation = down; break;
+                case down: maze.mouse.orientation = left; break;
+                case left: maze.mouse.orientation = up; break;
+                default: break;
+            }
+        }
+        
+    }
 }
 
 void thirdRun(Maze_t& maze)
