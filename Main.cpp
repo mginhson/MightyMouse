@@ -55,6 +55,10 @@ void firstRun (Maze_t& maze);
 void secondRun (Maze_t& maze);
 void thirdRun (Maze_t& maze);
 void goBackToBeginning (Maze_t& maze);
+void mouseForward (Maze_t& maze);
+void mouseLeft (Maze_t& maze);
+void mouseRight (Maze_t& maze);
+
 
 int main(int argc, char* argv[]) 
 {
@@ -69,7 +73,7 @@ int main(int argc, char* argv[])
         {
             case 3:
             {
-               secondRun(maze); 
+               firstRun(maze); 
             }break;
 
             case 2:
@@ -159,14 +163,7 @@ void firstRun(Maze_t& maze)
             }
         }
         
-        switch(maze.mouse.orientation)
-        {
-            case up: maze.mouse.y += 1; break;
-            case down: maze.mouse.y -= 1; break;
-            case right: maze.mouse.x +=1; break;
-            case left: maze.mouse.x -= 1; break;
-        }
-        API::moveForward();
+        mouseForward(maze);
     }
     
     goBackToBeginning(maze);
@@ -280,13 +277,25 @@ void updateCell (Maze_t& maze)
                 maze.board[maze.mouse.x][maze.mouse.y].walls[down] = 0;
 
             if (API::wallFront())     
+            {    
                 maze.board[maze.mouse.x][maze.mouse.y].walls[up] = 1;
+                if (maze.mouse.y+1 < MAZE_SIZE)
+                    maze.board[maze.mouse.x][maze.mouse.y + 1].walls[down] = 1;
+            }
             
             if (API::wallLeft()) 
+            {
                 maze.board[maze.mouse.x][maze.mouse.y].walls[left] = 1;
+                if (maze.mouse.x - 1 >= 0)
+                    maze.board[maze.mouse.x - 1][maze.mouse.y].walls[right] = 1;
+            }    
             
             if (API::wallRight()) 
+            {
                 maze.board[maze.mouse.x][maze.mouse.y].walls[right] = 1;
+                if (maze.mouse.x + 1 < MAZE_SIZE)
+                    maze.board[maze.mouse.x + 1][maze.mouse.y].walls[left] = 1;
+            }
 
         }break;
 
@@ -300,14 +309,27 @@ void updateCell (Maze_t& maze)
         {
             
             maze.board[maze.mouse.x][maze.mouse.y].walls[right] = 0;
+            
             if (API::wallFront()) 
+            {
                 maze.board[maze.mouse.x][maze.mouse.y].walls[left] = 1;
+                if (maze.mouse.x - 1 >= 0)
+                    maze.board[maze.mouse.x - 1][maze.mouse.y].walls[right] = 1;
+            }
             
             if (API::wallLeft()) 
+            {
                 maze.board[maze.mouse.x][maze.mouse.y].walls[down] = 1;
+                if (maze.mouse.y - 1 >= 0)
+                    maze.board[maze.mouse.x][maze.mouse.y - 1].walls[up] = 1;
+            }   
             
             if (API::wallRight()) 
+            {    
                 maze.board[maze.mouse.x][maze.mouse.y].walls[up] = 1;
+                if (maze.mouse.y + 1 < MAZE_SIZE)
+                    maze.board[maze.mouse.x][maze.mouse.y + 1].walls[down] = 1;
+            }
                 
         }break;
 
@@ -322,13 +344,25 @@ void updateCell (Maze_t& maze)
             maze.board[maze.mouse.x][maze.mouse.y].walls[left] = 0;
 
             if (API::wallFront()) 
+            {
                 maze.board[maze.mouse.x][maze.mouse.y].walls[right] = 1;
+                if (maze.mouse.x + 1 < MAZE_SIZE)
+                    maze.board[maze.mouse.x + 1][maze.mouse.y].walls[left] = 1;
+            }   
             
             if (API::wallLeft()) 
+            {    
                 maze.board[maze.mouse.x][maze.mouse.y].walls[up] = 1;
+                if (maze.mouse.y + 1 < MAZE_SIZE)
+                    maze.board[maze.mouse.x][maze.mouse.y + 1].walls[down] = 1;
+            }
             
             if (API::wallRight()) 
+            {
                 maze.board[maze.mouse.x][maze.mouse.y].walls[down] = 1;
+                if (maze.mouse.y - 1 >= 0)
+                    maze.board[maze.mouse.x][maze.mouse.y - 1].walls[up] = 1;
+            }
                 
         }break;
 
@@ -342,13 +376,25 @@ void updateCell (Maze_t& maze)
         {
             maze.board[maze.mouse.x][maze.mouse.y].walls[up] = 0;
             if (API::wallFront()) 
+            {
                 maze.board[maze.mouse.x][maze.mouse.y].walls[down] = 1;
+                if (maze.mouse.y - 1 >= 0)
+                    maze.board[maze.mouse.x][maze.mouse.y - 1].walls[up] = 1;
+            }
             
             if (API::wallLeft()) 
+            {
                 maze.board[maze.mouse.x][maze.mouse.y].walls[right] = 1;
+                if (maze.mouse.x + 1 < MAZE_SIZE)
+                    maze.board[maze.mouse.x + 1][maze.mouse.y].walls[left] = 1;
+            }
             
             if (API::wallRight()) 
+            {
                 maze.board[maze.mouse.x][maze.mouse.y].walls[left] = 1;
+                if (maze.mouse.x - 1 >= 0)
+                    maze.board[maze.mouse.x - 1][maze.mouse.y].walls[right] = 1;
+            }
             
         }break;
 
@@ -448,6 +494,8 @@ void floodFill(Maze_t& maze) {
         }
     }
 }
+
+
 void displayFloodfill(Maze_t& maze) {
     int i;
     int j;
@@ -457,6 +505,26 @@ void displayFloodfill(Maze_t& maze) {
         }
     }
 }   
+
+
+void mouseForward (Maze_t& maze)
+{
+    switch(maze.mouse.orientation)
+    {
+        case up: maze.mouse.y += 1; break;
+        case down: maze.mouse.y -= 1; break;
+        case right: maze.mouse.x +=1; break;
+        case left: maze.mouse.x -= 1; break;
+    }
+    API::moveForward();
+
+    return ;
+}
+
+void mouseLeft (Maze_t& maze)
+{
+
+}
 
 
 bool hasFinished(Maze_t& maze)
