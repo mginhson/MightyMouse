@@ -266,7 +266,7 @@ void floodFill(Maze_t& maze) {
     while (!cellQueue.empty()) {
 
         int i;
-        for (i = 0; i < cellQueue.size(); i++) {
+        for (i = 0; i < cellQueue.size(); i++) { 
             Cell_t* pCell = cellQueue.front();
             pCell->mark = true;
             // Al recorrer siempre alrededor, se llega siempre de la manera mas corta al camino
