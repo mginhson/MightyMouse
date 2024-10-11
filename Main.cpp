@@ -87,68 +87,7 @@ int main(int argc, char* argv[])
 
         }
         auto endTime = std::chrono::steady_clock::now();
-    }
-    /*
-    while(true)
-    {
-        updateCell(maze);
-        floodFill(maze);
-        displayFloodfill(maze);
-        Orientation_t bestOrientation = maze.mouse.orientation;
-        unsigned int value = ~0; //max value
-        unsigned int i;
-        
-        if (maze.board[maze.mouse.x][maze.mouse.y].walls[up] == 0 &&
-            maze.board[maze.mouse.x][maze.mouse.y].floodfillValue < value)
-        {
-            value = maze.board[maze.mouse.x][maze.mouse.y].floodfillValue;
-            bestOrientation = up;
-            log("Updated best orientation");
-        }
-        
-        if (maze.board[maze.mouse.x][maze.mouse.y].walls[down] == 0 &&
-            maze.board[maze.mouse.x][maze.mouse.y].floodfillValue < value)
-        {
-            value = maze.board[maze.mouse.x][maze.mouse.y].floodfillValue;
-            bestOrientation = down;
-            log("Updated best orientation");
-        }
-
-        if (maze.board[maze.mouse.x][maze.mouse.y].walls[left] == 0 &&
-            maze.board[maze.mouse.x][maze.mouse.y].floodfillValue < value)
-        {
-            value = maze.board[maze.mouse.x][maze.mouse.y].floodfillValue;
-            bestOrientation = left;
-            log("Updated best orientation");
-        }
-
-        if (maze.board[maze.mouse.x][maze.mouse.y].walls[right] == 0 &&
-            maze.board[maze.mouse.x][maze.mouse.y].floodfillValue < value)
-        {
-            value = maze.board[maze.mouse.x][maze.mouse.y].floodfillValue;
-            bestOrientation = right;
-            log("Updated best orientation");
-        }
-
-
-        while(maze.mouse.orientation != bestOrientation)
-        {
-            API::turnRight();
-            switch(maze.mouse.orientation)
-            {
-                case up: maze.mouse.orientation = right; break;
-                case right: maze.mouse.orientation = down; break;
-                case down: maze.mouse.orientation = left; break;
-                case left: maze.mouse.orientation = up; break;
-                default: break;
-            }
-        }
-        
-    }
-    */
-
-        
-    
+    }    
 }
 
 
@@ -247,33 +186,33 @@ void secondRun(Maze_t& maze)
         unsigned int i;
         
         if (maze.board[maze.mouse.x][maze.mouse.y].walls[up] == 0 &&
-            maze.board[maze.mouse.x][maze.mouse.y].floodfillValue < value)
+            maze.board[maze.mouse.x][maze.mouse.y + 1].floodfillValue < value)
         {
-            value = maze.board[maze.mouse.x][maze.mouse.y].floodfillValue;
+            value = maze.board[maze.mouse.x][maze.mouse.y + 1].floodfillValue;
             bestOrientation = up;
-            log("Updated best orientation");
+            log("Updated best orientation to up");
         }
         
         if (maze.board[maze.mouse.x][maze.mouse.y].walls[down] == 0 &&
-            maze.board[maze.mouse.x][maze.mouse.y].floodfillValue < value)
+            maze.board[maze.mouse.x][maze.mouse.y - 1].floodfillValue < value)
         {
-            value = maze.board[maze.mouse.x][maze.mouse.y].floodfillValue;
+            value = maze.board[maze.mouse.x][maze.mouse.y - 1].floodfillValue;
             bestOrientation = down;
-            log("Updated best orientation");
+            log("Updated best orientation to down");
         }
 
         if (maze.board[maze.mouse.x][maze.mouse.y].walls[left] == 0 &&
-            maze.board[maze.mouse.x][maze.mouse.y].floodfillValue < value)
+            maze.board[maze.mouse.x - 1][maze.mouse.y].floodfillValue < value)
         {
-            value = maze.board[maze.mouse.x][maze.mouse.y].floodfillValue;
+            value = maze.board[maze.mouse.x - 1][maze.mouse.y].floodfillValue;
             bestOrientation = left;
             log("Updated best orientation");
         }
 
         if (maze.board[maze.mouse.x][maze.mouse.y].walls[right] == 0 &&
-            maze.board[maze.mouse.x][maze.mouse.y].floodfillValue < value)
+            maze.board[maze.mouse.x + 1][maze.mouse.y].floodfillValue < value)
         {
-            value = maze.board[maze.mouse.x][maze.mouse.y].floodfillValue;
+            value = maze.board[maze.mouse.x + 1][maze.mouse.y].floodfillValue;
             bestOrientation = right;
             log("Updated best orientation");
         }
@@ -468,7 +407,7 @@ void floodFill(Maze_t& maze) {
     int floodfillAsignmentValue = 1;
     // Mientras que la lista este vacia
     while (!cellQueue.empty()) {
-        // Obtenemos el tamaño de la lista
+        // Obtenemos el tamaï¿½o de la lista
         int queueSize = cellQueue.size();
         int i;
         // Itero sobre todos los elementos cargados de la lista
