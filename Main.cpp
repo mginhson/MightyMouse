@@ -351,3 +351,14 @@ void displayFloodfill(Maze_t& maze) {
         }
     }
 }   
+
+
+bool hasFinished(Maze_t& maze)
+{
+    if (maze.mouse.x < 7 || maze.mouse.x > 8)
+        return 0;
+    if (maze.mouse.y < 7 || maze.mouse.y > 8)
+        return 0;
+    
+    return 1;
+}
