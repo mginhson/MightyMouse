@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <stack>
+#include <chrono>
 #include "API.h"
 #include "vector"
 #include "queue"
@@ -45,21 +46,49 @@ typedef struct{
 
 }Maze_t;
 
-void initMaze(Maze_t& maze);
-void floodFill(Maze_t& maze);
+void initMaze (Maze_t& maze);
+void floodFill (Maze_t& maze);
 bool hasFinished (Maze_t& maze);
 void updateCell (Maze_t& maze);
-void displayFloodfill(Maze_t& maze);
+void displayFloodfill (Maze_t& maze);
+void firstRun (Maze_t& maze);
+void secondRun (Maze_t& maze);
+void thirdRun (Maze_t& maze);
+void goBackToBeginning (Maze_t& maze);
 
 int main(int argc, char* argv[]) 
 {
-    
-    log("Running...");
-
+    auto startTime = std::chrono::steady_clock::now();
     Maze_t maze;
-    
+    int triesLeft = 3;    
     initMaze(maze);
 
+    while (triesLeft)
+    {
+        switch(triesLeft--)
+        {
+            case 3:
+            {
+               firstRun(maze); 
+            }break;
+
+            case 2:
+            {
+                secondRun(maze);
+            }break;
+
+            case 1:
+            {
+                thirdRun(maze);
+            }break;
+
+            default:
+                break;
+
+        }
+        auto endTime = std::chrono::steady_clock::now();
+    }
+    /*
     while(true)
     {
         updateCell(maze);
@@ -114,15 +143,9 @@ int main(int argc, char* argv[])
                 default: break;
             }
         }
-        switch(maze.mouse.orientation)
-        {
-            case up: maze.mouse.y += 1; break;
-            case down: maze.mouse.y -= 1; break;
-            case right: maze.mouse.x +=1; break;
-            case left: maze.mouse.x -= 1; break;
-        }
-        API::moveForward();
+        
     }
+    */
 
         
     
@@ -170,6 +193,66 @@ int main(int argc, char* argv[])
         
 
     }
+
+
+
+void firstRun(Maze_t& maze)
+{
+    while (!hasFinished(maze)) 
+    {
+        updateCell(maze);
+        if (!API::wallLeft()) {
+            API::turnLeft();
+            switch(maze.mouse.orientation)
+            {
+                case up: maze.mouse.orientation = left; break;
+                case right: maze.mouse.orientation = up; break;
+                case down: maze.mouse.orientation = right; break;
+                case left: maze.mouse.orientation = down; break;
+                default: break;
+            }
+        }
+        while (API::wallFront()) {
+            API::turnRight();
+            switch(maze.mouse.orientation)
+            {
+                case up: maze.mouse.orientation = right; break;
+                case right: maze.mouse.orientation = down; break;
+                case down: maze.mouse.orientation = left; break;
+                case left: maze.mouse.orientation = up; break;
+                default: break;
+            }
+        }
+        
+        switch(maze.mouse.orientation)
+        {
+            case up: maze.mouse.y += 1; break;
+            case down: maze.mouse.y -= 1; break;
+            case right: maze.mouse.x +=1; break;
+            case left: maze.mouse.x -= 1; break;
+        }
+        API::moveForward();
+    }
+    
+    goBackToBeginning(maze);
+    
+    return;
+}
+
+void secondRun(Maze_t& maze)
+{
+
+}
+
+void thirdRun(Maze_t& maze)
+{
+
+}
+
+void goBackToBeginning(Maze_t& maze)
+{
+
+}
 
 
 /**
