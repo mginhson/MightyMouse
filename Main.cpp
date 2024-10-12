@@ -47,7 +47,7 @@ typedef struct{
 }Maze_t;
 
 void initMaze (Maze_t& maze);
-void floodFill (Maze_t& maze);
+void floodFill (Maze_t& maze, std::vector<Cell_t*> & initialCells);
 bool hasFinished (Maze_t& maze);
 void updateCell (Maze_t& maze);
 void displayFloodfill (Maze_t& maze);
@@ -161,8 +161,13 @@ void secondRun(Maze_t& maze)
     while(!hasFinished(maze))
     {
         updateCell(maze);
-        
-        floodFill(maze);
+        std::vector<Cell_t*> aimCells = {
+            &(maze.board[7][7]),
+            &(maze.board[7][8]),
+            &(maze.board[8][7]),
+            &(maze.board[8][8])
+        };
+        floodFill(maze, aimCells);
         displayFloodfill(maze);
         
         Orientation_t bestOrientation = maze.mouse.orientation;
@@ -424,11 +429,17 @@ void cleanAllWalls(Maze_t& maze) {
         }
     }
 }
-void floodFill(Maze_t& maze) {
+void floodFill(Maze_t& maze, std::vector<Cell_t*> &initialCells) {
     // Chequeo el valor de floodfill de las direcciones alrededor del mouse
 
     std::queue<Cell_t*> cellQueue;
     // Se cargan las primeras 4 direcciones de destino
+    for (auto cell : initialCells) {
+        cellQueue.push(cell);
+        cell->floodfillValue = 0;
+        cell->floodfillMark = true;
+    }
+    /*
     cellQueue.push(&(maze.board[7][7]));
     cellQueue.push(&(maze.board[7][8]));
     cellQueue.push(&(maze.board[8][7]));
@@ -443,7 +454,7 @@ void floodFill(Maze_t& maze) {
     (maze.board[7][8]).floodfillMark = true;
     (maze.board[8][7]).floodfillMark = true;
     (maze.board[8][8]).floodfillMark = true;
-    
+    */
     int floodfillAsignmentValue = 1;
     // Mientras que la lista este vacia
 
