@@ -10,6 +10,8 @@ void log(const std::string& text) {
     std::cerr << text << std::endl;
 }
 
+#define ABS(x) ((x) > 0 ? (x) : -(x))
+
 
 
 typedef enum{movement_left,movement_right,movement_forward} Movement_t;
@@ -48,6 +50,8 @@ typedef struct{
 
 void initMaze (Maze_t& maze);
 void floodFill (Maze_t& maze, std::vector<Cell_t*> & initialCells);
+void pathTo (Maze_t& maze, std::vector<Cell_t*>& targets);
+bool hasReachedTarget (Maze_t& maze, std::vector<Cell_t*>& targets);
 bool hasFinished (Maze_t& maze);
 void updateCell (Maze_t& maze);
 void displayFloodfill (Maze_t& maze);
@@ -153,56 +157,16 @@ void firstRun(Maze_t& maze)
         mouseForward(maze);
     }
     
-    while(!hasFinished(maze))
+    std::vector<Cell_t*> vec1 = 
     {
-        updateCell(maze);
-        floodFill(maze);
-        displayFloodfill(maze);
-        Orientation_t bestOrientation = maze.mouse.orientation;
-        unsigned int value = ~0; //max value
-        unsigned int i;
-        
-        if (maze.board[maze.mouse.x][maze.mouse.y].walls[up] == 0 &&
-            maze.board[maze.mouse.x][maze.mouse.y + 1].floodfillValue < value)
-        {
-            value = maze.board[maze.mouse.x][maze.mouse.y + 1].floodfillValue;
-            bestOrientation = up;
-            log("Updated best orientation to up");
-        }
-        
-        if (maze.board[maze.mouse.x][maze.mouse.y].walls[down] == 0 &&
-            maze.board[maze.mouse.x][maze.mouse.y - 1].floodfillValue < value)
-        {
-            value = maze.board[maze.mouse.x][maze.mouse.y - 1].floodfillValue;
-            bestOrientation = down;
-            log("Updated best orientation to down");
-        }
+        &maze.board[7][7],
+        &maze.board[7][8],
+        &maze.board[8][7],
+        &maze.board[8][8]
+    };
 
-        if (maze.board[maze.mouse.x][maze.mouse.y].walls[left] == 0 &&
-            maze.board[maze.mouse.x - 1][maze.mouse.y].floodfillValue < value)
-        {
-            value = maze.board[maze.mouse.x - 1][maze.mouse.y].floodfillValue;
-            bestOrientation = left;
-            log("Updated best orientation");
-        }
+    pathTo(maze,vec1);
 
-        if (maze.board[maze.mouse.x][maze.mouse.y].walls[right] == 0 &&
-            maze.board[maze.mouse.x + 1][maze.mouse.y].floodfillValue < value)
-        {
-            value = maze.board[maze.mouse.x + 1][maze.mouse.y].floodfillValue;
-            bestOrientation = right;
-            log("Updated best orientation");
-        }
-
-
-        while(maze.mouse.orientation != bestOrientation)
-            mouseRight(maze);
-
-        mouseForward(maze);
-        
-    }
-
-    
     goBackToBeginning(maze);
     
     return;
@@ -210,62 +174,18 @@ void firstRun(Maze_t& maze)
 
 void secondRun(Maze_t& maze)
 {
-    while(!hasFinished(maze))
-    {
-        updateCell(maze);
-        std::vector<Cell_t*> aimCells = {
-            &(maze.board[7][7]),
-            &(maze.board[7][8]),
-            &(maze.board[8][7]),
-            &(maze.board[8][8])
-        };
-        floodFill(maze, aimCells);
-        displayFloodfill(maze);
-        
-        Orientation_t bestOrientation = maze.mouse.orientation;
-        unsigned int value = ~0; //max value
-        unsigned int i;
-        
-        if (maze.board[maze.mouse.x][maze.mouse.y].walls[up] == 0 &&
-            maze.board[maze.mouse.x][maze.mouse.y + 1].floodfillValue < value)
-        {
-            value = maze.board[maze.mouse.x][maze.mouse.y + 1].floodfillValue;
-            bestOrientation = up;
-            log("Updated best orientation to up");
-        }
-        
-        if (maze.board[maze.mouse.x][maze.mouse.y].walls[down] == 0 &&
-            maze.board[maze.mouse.x][maze.mouse.y - 1].floodfillValue < value)
-        {
-            value = maze.board[maze.mouse.x][maze.mouse.y - 1].floodfillValue;
-            bestOrientation = down;
-            log("Updated best orientation to down");
-        }
-
-        if (maze.board[maze.mouse.x][maze.mouse.y].walls[left] == 0 &&
-            maze.board[maze.mouse.x - 1][maze.mouse.y].floodfillValue < value)
-        {
-            value = maze.board[maze.mouse.x - 1][maze.mouse.y].floodfillValue;
-            bestOrientation = left;
-            log("Updated best orientation");
-        }
-
-        if (maze.board[maze.mouse.x][maze.mouse.y].walls[right] == 0 &&
-            maze.board[maze.mouse.x + 1][maze.mouse.y].floodfillValue < value)
-        {
-            value = maze.board[maze.mouse.x + 1][maze.mouse.y].floodfillValue;
-            bestOrientation = right;
-            log("Updated best orientation");
-        }
-
-
-        while(maze.mouse.orientation != bestOrientation)
-            mouseRight(maze);
-
-        mouseForward(maze);
-        
-    }
     
+    
+    std::vector<Cell_t*> vec1 = 
+    {
+        &maze.board[7][7],
+        &maze.board[7][8],
+        &maze.board[8][7],
+        &maze.board[8][8]
+    };
+
+    pathTo(maze,vec1);
+
     goBackToBeginning(maze);
 }
 
@@ -276,9 +196,59 @@ void thirdRun(Maze_t& maze)
 
 void goBackToBeginning(Maze_t& maze)
 {
+    std::vector<Cell_t*> vec2 = {&maze.board[0][0]};
 
+    pathTo(maze,vec2);
 }
 
+
+void pathTo (Maze_t& maze, std::vector<Cell_t*>& targets)
+{
+    while (!hasReachedTarget(maze, targets))
+    {
+        updateCell(maze);
+        floodFill(maze, targets);
+        displayFloodfill(maze);
+        
+        Orientation_t bestOrientation = maze.mouse.orientation;
+        unsigned int value = ~0; //max value
+        unsigned int i;
+        
+        if (maze.board[maze.mouse.x][maze.mouse.y].walls[up] == 0 &&
+            maze.board[maze.mouse.x][maze.mouse.y + 1].floodfillValue < value)
+        {
+            value = maze.board[maze.mouse.x][maze.mouse.y + 1].floodfillValue;
+            bestOrientation = up;   
+        }
+        
+        if (maze.board[maze.mouse.x][maze.mouse.y].walls[down] == 0 &&
+            maze.board[maze.mouse.x][maze.mouse.y - 1].floodfillValue < value)
+        {
+            value = maze.board[maze.mouse.x][maze.mouse.y - 1].floodfillValue;
+            bestOrientation = down;
+        }
+
+        if (maze.board[maze.mouse.x][maze.mouse.y].walls[left] == 0 &&
+            maze.board[maze.mouse.x - 1][maze.mouse.y].floodfillValue < value)
+        {
+            value = maze.board[maze.mouse.x - 1][maze.mouse.y].floodfillValue;
+            bestOrientation = left;
+        }
+
+        if (maze.board[maze.mouse.x][maze.mouse.y].walls[right] == 0 &&
+            maze.board[maze.mouse.x + 1][maze.mouse.y].floodfillValue < value)
+        {
+            value = maze.board[maze.mouse.x + 1][maze.mouse.y].floodfillValue;
+            bestOrientation = right;
+        }
+
+        while(maze.mouse.orientation != bestOrientation)
+            mouseRight(maze);
+        
+    
+        mouseForward(maze);
+    }
+}
 
 /**
  * @brief Updates the cell if needed 
@@ -288,7 +258,7 @@ void updateCell (Maze_t& maze)
     //Just in case
     if (maze.board[maze.mouse.x][maze.mouse.y].mark == 1)
         return;
-    log("Updating new cell");
+    
     maze.board[maze.mouse.x][maze.mouse.y].mark = 1;
     
     switch (maze.mouse.orientation)
@@ -432,30 +402,24 @@ void updateCell (Maze_t& maze)
     //Now, we set the walls (Visual help on the emulator)
     
     if (maze.board[maze.mouse.x][maze.mouse.y].walls[up]) 
-    {
-        log("Found a wall: up");
-        API::setWall(maze.mouse.x, maze.mouse.y, 'n');
-    }   
+        API::setWall(maze.mouse.x, maze.mouse.y, 'n');  
     
     if (maze.board[maze.mouse.x][maze.mouse.y].walls[down]) 
-    {
-        log("Found a wall: down");
         API::setWall(maze.mouse.x, maze.mouse.y, 's');
-    }
+    
 
     if (maze.board[maze.mouse.x][maze.mouse.y].walls[right]) 
-    {    
-        log("Found a wall: right");
         API::setWall(maze.mouse.x, maze.mouse.y, 'e');
-    }
+    
 
     if (maze.board[maze.mouse.x][maze.mouse.y].walls[left]) 
-    {
-        log("Found a wall: left");
         API::setWall(maze.mouse.x, maze.mouse.y, 'w');
-    }
+    
 
 }
+
+
+
 void setAllWalls(Maze_t & maze){
     int i;
     int j;
@@ -613,11 +577,23 @@ void mouseRight (Maze_t& maze)
     }
 }
 
-bool hasFinished(Maze_t& maze)
+bool hasReachedTarget(Maze_t& maze, std::vector<Cell_t*>& targets)
 {
-    if (maze.mouse.x < 7 || maze.mouse.x > 8)
+    unsigned int i;
+    for (i = 0; i < targets.size(); i++)
+    {
+        if ((maze.mouse.x == targets[i]->x) && (maze.mouse.y == targets[i]->y))
+            return 1;
+    }
+    
+    return 0;
+}
+
+bool hasFinished (Maze_t& maze)
+{
+    if ((maze.mouse.x != 7) || (maze.mouse.y != 8))
         return 0;
-    if (maze.mouse.y < 7 || maze.mouse.y > 8)
+    if ((maze.mouse.y != 7) || (maze.mouse.y != 8))
         return 0;
     
     return 1;
