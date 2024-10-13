@@ -142,8 +142,6 @@ int main(int argc, char* argv[])
 
 void firstRun(Maze_t& maze)
 {
-    
-
     while (!hasFinished(maze) && maze.board[maze.mouse.x][maze.mouse.y].mark == 0) 
     {
         updateCell(maze);
@@ -176,17 +174,7 @@ void secondRun(Maze_t& maze)
 {
     
     
-    std::vector<Cell_t*> vec1 = 
-    {
-        &maze.board[7][7],
-        &maze.board[7][8],
-        &maze.board[8][7],
-        &maze.board[8][8]
-    };
-
-    pathTo(maze,vec1);
-
-    goBackToBeginning(maze);
+ 
 }
 
 void thirdRun(Maze_t& maze)
