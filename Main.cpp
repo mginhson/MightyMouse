@@ -626,7 +626,7 @@ unsigned int timeElapsedInSeconds (void)
 bool firstRunCutoff(void)
 {
     log(std::to_string(timeElapsedInSeconds()));
-    if (timeElapsedInSeconds() > 15)
+    if (timeElapsedInSeconds() > TIME_LIMIT/2)
     {
         log("Cutoff Triggered");
         return 1;
