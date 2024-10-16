@@ -32,6 +32,7 @@ typedef struct{
 }Mouse_t;
 
 #define MAZE_SIZE 16
+#define TIME_LIMIT (60*4)
 
 typedef struct{
     unsigned int floodfillValue;
@@ -48,9 +49,10 @@ typedef struct{
 
 }Maze_t;
 
+
 void initMaze (Maze_t& maze);
 void floodFill (Maze_t& maze, std::vector<Cell_t*> & initialCells);
-void pathTo (Maze_t& maze, std::vector<Cell_t*>& targets);
+void pathTo (Maze_t& maze, std::vector<Cell_t*>& targets, bool (*cutoff)(void));
 bool hasReachedTarget (Maze_t& maze, std::vector<Cell_t*>& targets);
 bool hasFinished (Maze_t& maze);
 void updateCell (Maze_t& maze);
@@ -64,10 +66,14 @@ void mouseLeft (Maze_t& maze);
 void mouseRight (Maze_t& maze);
 void cleanAllWalls(Maze_t& maze);
 void setAllWalls(Maze_t& maze);
+unsigned int timeElapsedInSeconds(void);
+bool firstRunCutoff(void);
+
+std::chrono::_V2::steady_clock::time_point globalStartTime = std::chrono::steady_clock::now();
 
 int main(int argc, char* argv[]) 
 {
-    auto startTime = std::chrono::steady_clock::now();
+    
     Maze_t maze;
     int triesLeft = 3;    
     initMaze(maze);
@@ -95,7 +101,8 @@ int main(int argc, char* argv[])
                 break;
 
         }
-        auto endTime = std::chrono::steady_clock::now();
+        
+
     }    
 }
 
@@ -143,11 +150,11 @@ int main(int argc, char* argv[])
 void firstRun(Maze_t& maze)
 {
     std::vector<Cell_t*>vec = {&maze.board[0][MAZE_SIZE - 1]};
-    pathTo(maze, vec);
+    pathTo(maze, vec, &firstRunCutoff);
     vec[0] = &maze.board[MAZE_SIZE - 1][MAZE_SIZE - 1];
-    pathTo(maze, vec);
+    pathTo(maze, vec, &firstRunCutoff);
     vec[0] = &maze.board[MAZE_SIZE - 1][0];
-    pathTo(maze, vec);
+    pathTo(maze, vec, &firstRunCutoff);
 
     vec.resize(4);
     vec[0] = &maze.board[7][7];
@@ -155,9 +162,9 @@ void firstRun(Maze_t& maze)
     vec[2] = &maze.board[8][7];
     vec[3] = &maze.board[8][8];
 
-    pathTo(maze,vec);
+    pathTo(maze,vec, NULL);
 
-    
+
     goBackToBeginning(maze);
 
     return;
@@ -165,26 +172,44 @@ void firstRun(Maze_t& maze)
 
 void secondRun(Maze_t& maze)
 {
-    
+    std::vector<Cell_t*> vec = 
+    {
+        &maze.board[7][7],
+        &maze.board[7][8],
+        &maze.board[8][7],
+        &maze.board[8][8],
+    };
+
+    pathTo(maze,vec, NULL);
+    goBackToBeginning(maze);
     
 }
 
 void thirdRun(Maze_t& maze)
 {
+    std::vector<Cell_t*> vec = 
+    {
+        &maze.board[7][7],
+        &maze.board[7][8],
+        &maze.board[8][7],
+        &maze.board[8][8],
+    };
 
+    pathTo(maze,vec, NULL);
+    
 }
 
 void goBackToBeginning(Maze_t& maze)
 {
     std::vector<Cell_t*> vec2 = {&maze.board[0][0]}; 
 
-    pathTo(maze,vec2);
+    pathTo(maze,vec2, NULL);
 }
 
 
-void pathTo (Maze_t& maze, std::vector<Cell_t*>& targets)
+void pathTo (Maze_t& maze, std::vector<Cell_t*>& targets, bool (*cutoff)(void))
 {
-    while (!hasReachedTarget(maze, targets))
+    while (!hasReachedTarget(maze, targets) && (cutoff == NULL || !cutoff()))
     {
         updateCell(maze);
         floodFill(maze, targets);
@@ -222,8 +247,17 @@ void pathTo (Maze_t& maze, std::vector<Cell_t*>& targets)
             bestOrientation = right;
         }
 
-        while(maze.mouse.orientation != bestOrientation)
-            mouseRight(maze);
+        if (((maze.mouse.orientation+1)%4) == bestOrientation)
+        {
+            while(maze.mouse.orientation != bestOrientation)
+                mouseRight(maze);
+        }
+        else
+        {
+            while(maze.mouse.orientation != bestOrientation)
+                mouseLeft(maze);
+        }
+        
         
     
         mouseForward(maze);
@@ -457,7 +491,7 @@ void floodFill(Maze_t& maze, std::vector<Cell_t*> &initialCells) {
     while (!cellQueue.empty()) {
         // Obtenemos el tama�o de la lista
         int queueSize = cellQueue.size();
-        log(std::to_string(queueSize));
+        
         int i;
         // Itero sobre todos los elementos cargados de la lista
         for (i = 0; i < queueSize; i++) { 
@@ -577,4 +611,26 @@ bool hasFinished (Maze_t& maze)
         return 0;
     
     return 1;
+}
+
+unsigned int timeElapsedInSeconds (void)
+{
+    
+    auto endingTime = std::chrono::steady_clock::now();
+    unsigned int time = std::chrono::duration_cast<std::chrono::seconds>(endingTime-globalStartTime).count();
+    log(std::to_string(time));
+
+    return time;
+}
+
+bool firstRunCutoff(void)
+{
+    log(std::to_string(timeElapsedInSeconds()));
+    if (timeElapsedInSeconds() > 15)
+    {
+        log("Cutoff Triggered");
+        return 1;
+    }   
+    
+    return 0;
 }
