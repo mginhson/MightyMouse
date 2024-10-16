@@ -184,7 +184,7 @@ void thirdRun(Maze_t& maze)
 
 void goBackToBeginning(Maze_t& maze)
 {
-    std::vector<Cell_t*> vec2 = {&maze.board[0][0]};
+    std::vector<Cell_t*> vec2 = {&maze.board[0][0]}; 
 
     pathTo(maze,vec2);
 }
