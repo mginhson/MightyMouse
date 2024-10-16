@@ -142,31 +142,24 @@ int main(int argc, char* argv[])
 
 void firstRun(Maze_t& maze)
 {
-    while (!hasFinished(maze) && maze.board[maze.mouse.x][maze.mouse.y].mark == 0) 
-    {
-        updateCell(maze);
-        if (!API::wallLeft()) {
-            mouseLeft(maze);
-        }
-        while (API::wallFront()) {
-            mouseRight(maze);
-        }
-        
-        mouseForward(maze);
-    }
+    std::vector<Cell_t*>vec = {&maze.board[0][MAZE_SIZE - 1]};
+    pathTo(maze, vec);
+    vec[0] = &maze.board[MAZE_SIZE - 1][MAZE_SIZE - 1];
+    pathTo(maze, vec);
+    vec[0] = &maze.board[MAZE_SIZE - 1][0];
+    pathTo(maze, vec);
+
+    vec.resize(4);
+    vec[0] = &maze.board[7][7];
+    vec[1] = &maze.board[7][8];
+    vec[2] = &maze.board[8][7];
+    vec[3] = &maze.board[8][8];
+
+    pathTo(maze,vec);
+
     
-    std::vector<Cell_t*> vec1 = 
-    {
-        &maze.board[7][7],
-        &maze.board[7][8],
-        &maze.board[8][7],
-        &maze.board[8][8]
-    };
-
-    pathTo(maze,vec1);
-
     goBackToBeginning(maze);
-    
+
     return;
 }
 
@@ -174,7 +167,6 @@ void secondRun(Maze_t& maze)
 {
     
     
- 
 }
 
 void thirdRun(Maze_t& maze)
