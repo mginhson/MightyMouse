@@ -10,13 +10,16 @@ void log(const std::string& text) {
 	std::cerr << text << std::endl;
 }
 
+
 #define ABS(x) ((x) > 0 ? (x) : -(x))
 
+//Configuration Defines
+#define MAZE_SIZE 16
+#define TIME_LIMIT (60*4)
 
+//Global variables
+std::chrono::_V2::steady_clock::time_point globalStartTime = std::chrono::steady_clock::now();
 
-typedef enum { movement_left, movement_right, movement_forward } Movement_t;
-
-typedef std::vector<Movement_t> MovementStack_t;
 
 typedef enum {
 	up = 0,
@@ -31,8 +34,7 @@ typedef struct {
 	Orientation_t orientation;
 }Mouse_t;
 
-#define MAZE_SIZE 16
-#define TIME_LIMIT (60*4)
+
 
 typedef struct {
 	unsigned int floodfillValue;
@@ -67,11 +69,15 @@ void mouseRight(Maze_t& maze);
 unsigned int timeElapsedInSeconds(void);
 bool firstRunCutoff(void);
 
-std::chrono::_V2::steady_clock::time_point globalStartTime = std::chrono::steady_clock::now();
+
 
 int main(int argc, char* argv[])
 {
-
+	/**
+	 * Inicializamos la cantidad de intentos, y dependiendo
+	 * del intento en el que estamos, ejecutamos una
+	 * rutina distinta.
+	 */
 	Maze_t maze;
 	int triesLeft = 3;
 	initMaze(maze);
@@ -82,24 +88,21 @@ int main(int argc, char* argv[])
 		{
 		case 1:
 		{
-			//thirdRun(maze); 
+			thirdRun(maze); 
 		}break;
 
 		case 2:
 		{
 			secondRun(maze);
-			//thirdRun(maze);
 		}break;
 
 		case 3:
 		{
 			firstRun(maze);
-			//secondRun(maze);
 		}break;
 
 		default:
 			break;
-
 		}
 
 
@@ -151,7 +154,7 @@ void initMaze(Maze_t& maze) {
 }
 
 /**
- * @brief Realiza el primer recorrido del laberinto
+ * @brief Estrategia para el primer recorrido del laberinto
  *
  * @param maze Situacion actual del laberinto
  */
@@ -172,18 +175,26 @@ void firstRun(Maze_t& maze)
 
 	pathTo(maze, vec, NULL);
 
-
+	//Luego de llegar al centro del laberinto, vuelve al inicio.
 	goBackToBeginning(maze);
 
 	return;
 }
+
+
 /**
- * @brief Realiza el segundo recorrido del laberinto
+ * @brief Estrategia para el segundo recorrdio del laberinto.
  *
  * @param maze Situacion actual del laberinto
  */
 void secondRun(Maze_t& maze)
 {
+	/**
+	 * En el segundo intento, se intenta ir al centro lo más rápido
+	 * posible aprovechando la información recogida en el primer intento.
+	 * La idea es dejar un recorrido óptimo para el tercer intento en base a los 
+	 * valores de FloodFill.
+	 */
 	std::vector<Cell_t*> vec =
 	{
 		&maze.board[7][7],
@@ -196,13 +207,19 @@ void secondRun(Maze_t& maze)
 	goBackToBeginning(maze);
 
 }
+
+
 /**
- * @brief Realiza el tercer recorrido del laberinto
+ * @brief Estrategia para el tercer recorrido del laberinto.
  *
  * @param maze Situacion actual del laberinto
  */
 void thirdRun(Maze_t& maze)
 {
+	/**
+	 * Último intento, simplemente llegar al centro lo más eficientemente
+	 * posible.
+	 */
 	std::vector<Cell_t*> vec =
 	{
 		&maze.board[7][7],
@@ -214,6 +231,8 @@ void thirdRun(Maze_t& maze)
 	pathTo(maze, vec, NULL);
 
 }
+
+
 /**
  * @brief Dada una situación de laberinto, lleva al mouse a su posición inicial
  *
@@ -227,14 +246,26 @@ void goBackToBeginning(Maze_t& maze)
 }
 
 /**
- * @brief Dirige al mouse hacía una o varias posiciónes determinada
+ * @brief Dirige a maze.mouse hacia tanto una casilla
+ * individiual o un grupo de casillas adyacentes en el 
+ * laberinto.
  *
  * @param maze Situacion actual del laberinto
- * @param targets Posiciones a las cuales se quiere dirigir el mouse
- * @param cutoff ????????????????????
+ * @param targets Posiciones a las cuales se quiere dirigir a maze.mouse
+ * @param cutoff Función opcional para agregar condiciones en caso de 
+ * 				 que sea necesario terminar el recorrido antes de llegar
+ * 				 al objetivo.
  */
 void pathTo(Maze_t& maze, std::vector<Cell_t*>& targets, bool (*cutoff)(void))
 {
+	/**
+	 * La idea es llegar a la/las casillas objetivo lo más óptimamente posible.
+	 * Para esto, el maze.mouse se dirige a la casilla adyacente con el menor valor
+	 * posible de FloodFill. Si esta casilla no fue analizada anteriormente, se añade
+	 * la información que se pueda recopilar de esta a la maze, y se corre de nuevo el 
+	 * FloodFill. La búsqueda termina cuando o se llega a alguna de las casillas objetivo,
+	 * o cuando, en el caso de tener definida una función de cutoff, esta active un trigger.
+	 */
 	while (!hasReachedTarget(maze, targets) && (cutoff == NULL || !cutoff()))
 	{
 		updateCell(maze);
@@ -242,7 +273,7 @@ void pathTo(Maze_t& maze, std::vector<Cell_t*>& targets, bool (*cutoff)(void))
 		displayFloodfill(maze);
 
 		Orientation_t bestOrientation = maze.mouse.orientation;
-		unsigned int value = ~0; //max value
+		unsigned int value = ~0; //Max value
 		unsigned int i;
 
 		if (maze.board[maze.mouse.x][maze.mouse.y].walls[up] == 0 &&
@@ -273,6 +304,7 @@ void pathTo(Maze_t& maze, std::vector<Cell_t*>& targets, bool (*cutoff)(void))
 			bestOrientation = right;
 		}
 
+		//Elegimos el sentido de rotación más eficiente.
 		if (((maze.mouse.orientation + 1) % 4) == bestOrientation)
 		{
 			while (maze.mouse.orientation != bestOrientation)
@@ -284,18 +316,20 @@ void pathTo(Maze_t& maze, std::vector<Cell_t*>& targets, bool (*cutoff)(void))
 				mouseLeft(maze);
 		}
 
-
-
+		//Una vez que maze.mouse esta orientado en la mejor dirección posible, avanzamos.
 		mouseForward(maze);
 	}
 }
 
 /**
- * @brief Updates the cell if needed
+ * @brief Si la celda nunca fue marcada, la analiza
+ * 		  e inserta los datos pertinenntes.
+ * 
+ * @param maze la situación actual de maze.
  */
 void updateCell(Maze_t& maze)
 {
-	//Just in case
+	//Si ya fue analizada, no hace falta rehacerlo.
 	if (maze.board[maze.mouse.x][maze.mouse.y].mark == 1)
 		return;
 
@@ -457,8 +491,10 @@ void updateCell(Maze_t& maze)
 
 
 }
+
+
 /**
- * @brief Realiza el primer recorrido del laberinto
+ * @brief Implementación de FloodFill
  *
  * @param maze Situacion actual del laberinto.
  * @param initialCells Celdas desde las cuales se inicia el floodfill.
@@ -528,7 +564,7 @@ void floodFill(Maze_t& maze, std::vector<Cell_t*>& initialCells) {
 }
 
 /**
- * @brief Coloca los valores de floodfill en el laberinto para que se vean graficamente.
+ * @brief Coloca los valores de floodfill en el laberinto para que se vean gráficamente.
  *
  * @param maze Situacion actual del laberinto
  */
@@ -542,47 +578,70 @@ void displayFloodfill(Maze_t& maze) {
 	}
 }
 
-
+/**
+ * @brief Mueve a maze.mouse para adelante, tanto en
+ * 		  la instancia de maze como en el simulador.
+ * @param maze La situación actual de maze.
+ */
 void mouseForward(Maze_t& maze)
 {
 	switch (maze.mouse.orientation)
 	{
-	case up: maze.mouse.y += 1; break;
-	case down: maze.mouse.y -= 1; break;
-	case right: maze.mouse.x += 1; break;
-	case left: maze.mouse.x -= 1; break;
+		case up:    maze.mouse.y += 1; break;
+		case down:  maze.mouse.y -= 1; break;
+		case right: maze.mouse.x += 1; break;
+		case left:  maze.mouse.x -= 1; break;
+		default: break;
 	}
 	API::moveForward();
 
 	return;
 }
 
+/**
+ * @brief Rota a maze.mouse hacia la izquierda, tanto en
+ * 		  la instancia de maze como en el simulador.
+ * @param maze La situación actual de maze.
+ */
 void mouseLeft(Maze_t& maze)
 {
 	API::turnLeft();
 	switch (maze.mouse.orientation)
 	{
-	case up: maze.mouse.orientation = left; break;
-	case right: maze.mouse.orientation = up; break;
-	case down: maze.mouse.orientation = right; break;
-	case left: maze.mouse.orientation = down; break;
-	default: break;
+		case up:    maze.mouse.orientation = left; break;
+		case right: maze.mouse.orientation = up; break;
+		case down:  maze.mouse.orientation = right; break;
+		case left:  maze.mouse.orientation = down; break;
+		default: break;
 	}
 }
 
+/**
+ * @brief Rota a maze.mouse hacia la derecha, tanto en
+ * 		  la instancia de maze como en el simulador.
+ * @param maze La situación actual de maze.
+ */
 void mouseRight(Maze_t& maze)
 {
 	API::turnRight();
 	switch (maze.mouse.orientation)
 	{
-	case up: maze.mouse.orientation = right; break;
-	case right: maze.mouse.orientation = down; break;
-	case down: maze.mouse.orientation = left; break;
-	case left: maze.mouse.orientation = up; break;
-	default: break;
+		case up: 	maze.mouse.orientation = right; break;
+		case right: maze.mouse.orientation = down; break;
+		case down:  maze.mouse.orientation = left; break;
+		case left:  maze.mouse.orientation = up; break;
+		default: break;
 	}
 }
 
+/**
+ * @brief Analiza si maze.mouse esta actualmente en una
+ * 		  de las posiciones a alcanzar.
+ * @param maze La situación actual de la maze.
+ * @param targets Vector con las posiciones objetivo a alcanzar.
+ * @return 1 si llegó a alguna de las casillas objetivo, 0 en 
+ * 		   caso contrario.
+ */
 bool hasReachedTarget(Maze_t& maze, std::vector<Cell_t*>& targets)
 {
 	unsigned int i;
@@ -595,6 +654,12 @@ bool hasReachedTarget(Maze_t& maze, std::vector<Cell_t*>& targets)
 	return 0;
 }
 
+/**
+ * @brief Verifica si maze.mouse llegó al centro del Laberinto,
+ * 		  caso especial de hasReachedTarget.
+ * @param maze La situación actual de la Maze.
+ * @return 0 si termino, 1 si aún no terminó.
+ */
 bool hasFinished(Maze_t& maze)
 {
 	if ((maze.mouse.x != 7) || (maze.mouse.y != 8))
@@ -605,6 +670,11 @@ bool hasFinished(Maze_t& maze)
 	return 1;
 }
 
+/**
+ * @brief Wrapper de funciones de std::chrono para determinar
+ * 		  cuantos segundos pasaron desde el inicio del programa.
+ * @return Cantidad de segundos desde el inicio de la ejecución.
+ */
 unsigned int timeElapsedInSeconds(void)
 {
 
@@ -615,10 +685,17 @@ unsigned int timeElapsedInSeconds(void)
 	return time;
 }
 
+/**
+ * @brief Determina si hay que cortar el recorrido del laberinto 
+ * 		  en el primer intento antes de terminar la estrategia, debido
+ * 		  al tiempo restante.
+ * @return 0 si todavia no hubo un Trigger, 1 si hubo un Trigger y hay que 
+ * 	       terminar el recorrido.
+ */
 bool firstRunCutoff(void)
 {
 	log(std::to_string(timeElapsedInSeconds()));
-	if (timeElapsedInSeconds() > TIME_LIMIT / 10)
+	if (timeElapsedInSeconds() > TIME_LIMIT / 4)
 	{
 		log("Cutoff Triggered");
 		return 1;
