@@ -56,7 +56,6 @@ void initMaze(Maze_t& maze);
 void floodFill(Maze_t& maze, std::vector<Cell_t*>& initialCells);
 void pathTo(Maze_t& maze, std::vector<Cell_t*>& targets, bool (*cutoff)(void));
 bool hasReachedTarget(Maze_t& maze, std::vector<Cell_t*>& targets);
-bool hasFinished(Maze_t& maze);
 void updateCell(Maze_t& maze);
 void displayFloodfill(Maze_t& maze);
 void firstRun(Maze_t& maze);
@@ -89,16 +88,19 @@ int main(int argc, char* argv[])
 		case 1:
 		{
 			thirdRun(maze); 
+			log("Third run finished in " + std::to_string(timeElapsedInSeconds()) + "seconds");
 		}break;
 
 		case 2:
 		{
 			secondRun(maze);
+			log("Second run finished in " + std::to_string(timeElapsedInSeconds()) + "seconds");
 		}break;
 
 		case 3:
 		{
 			firstRun(maze);
+			log("First run finished in " + std::to_string(timeElapsedInSeconds()) + "seconds");
 		}break;
 
 		default:
@@ -108,6 +110,8 @@ int main(int argc, char* argv[])
 
 	}
 }
+
+
 
 /**
  * @brief Inicializa la posición del mouse y da un valor inicial de 
@@ -161,12 +165,6 @@ void initMaze(Maze_t& maze) {
 void firstRun(Maze_t& maze)
 {
 	std::vector<Cell_t*>vec = { &maze.board[0][MAZE_SIZE - 1] };
-	pathTo(maze, vec, &firstRunCutoff);
-	vec[0] = &maze.board[MAZE_SIZE - 1][MAZE_SIZE - 1];
-	pathTo(maze, vec, &firstRunCutoff);
-	vec[0] = &maze.board[MAZE_SIZE - 1][0];
-	pathTo(maze, vec, &firstRunCutoff);
-
 	vec.resize(4);
 	vec[0] = &maze.board[7][7];
 	vec[1] = &maze.board[7][8];
@@ -174,6 +172,16 @@ void firstRun(Maze_t& maze)
 	vec[3] = &maze.board[8][8];
 
 	pathTo(maze, vec, NULL);
+
+	vec.resize(1);
+	vec[0] = &maze.board[0][MAZE_SIZE - 1];
+	pathTo(maze, vec, &firstRunCutoff);
+	vec[0] = &maze.board[MAZE_SIZE - 1][MAZE_SIZE - 1];
+	pathTo(maze, vec, &firstRunCutoff);
+	vec[0] = &maze.board[MAZE_SIZE - 1][0];
+	pathTo(maze, vec, &firstRunCutoff);
+
+	
 
 	//Luego de llegar al centro del laberinto, vuelve al inicio.
 	goBackToBeginning(maze);
@@ -319,6 +327,8 @@ void pathTo(Maze_t& maze, std::vector<Cell_t*>& targets, bool (*cutoff)(void))
 		//Una vez que maze.mouse esta orientado en la mejor dirección posible, avanzamos.
 		mouseForward(maze);
 	}
+	if (hasReachedTarget(maze, targets))
+		log("Reached the target at " + std::to_string(timeElapsedInSeconds()) + " seconds");
 }
 
 /**
@@ -524,26 +534,32 @@ void floodFill(Maze_t& maze, std::vector<Cell_t*>& initialCells) {
 			* y además puedan ser visitadas por la ausencia de una pared, entonces se les asigna el valor
 			* de floodfill correspondiente y se las marca como ya visitadas
 			*/
-			if (pCell->x + 1 < MAZE_SIZE && !maze.board[pCell->x + 1][pCell->y].floodfillMark && !(maze.board[pCell->x][pCell->y].walls[right])) {
-
+			if (pCell->x + 1 < MAZE_SIZE && !maze.board[pCell->x + 1][pCell->y].floodfillMark && 
+				!(maze.board[pCell->x][pCell->y].walls[right])) 
+			{
 				cellQueue.push(&(maze.board[pCell->x + 1][pCell->y]));
 				maze.board[pCell->x + 1][pCell->y].floodfillMark = true;
 				maze.board[pCell->x + 1][pCell->y].floodfillValue = floodfillAsignmentValue;
-
 			}
-			if (pCell->x - 1 >= 0 && !maze.board[pCell->x - 1][pCell->y].floodfillMark && !(maze.board[pCell->x][pCell->y].walls[left])) {
+			if (pCell->x - 1 >= 0 && !maze.board[pCell->x - 1][pCell->y].floodfillMark && 
+				!(maze.board[pCell->x][pCell->y].walls[left])) 
+			{
 				cellQueue.push(&(maze.board[pCell->x - 1][pCell->y]));
 				maze.board[pCell->x - 1][pCell->y].floodfillMark = true;
 				maze.board[pCell->x - 1][pCell->y].floodfillValue = floodfillAsignmentValue;
 
 			}
-			if (pCell->y + 1 < MAZE_SIZE && !maze.board[pCell->x][pCell->y + 1].floodfillMark && !(maze.board[pCell->x][pCell->y].walls[up])) {
+			if (pCell->y + 1 < MAZE_SIZE && !maze.board[pCell->x][pCell->y + 1].floodfillMark && 
+				!(maze.board[pCell->x][pCell->y].walls[up])) 
+			{
 				cellQueue.push(&(maze.board[pCell->x][pCell->y + 1]));
 				maze.board[pCell->x][pCell->y + 1].floodfillMark = true;
 				maze.board[pCell->x][pCell->y + 1].floodfillValue = floodfillAsignmentValue;
 
 			}
-			if (pCell->y - 1 >= 0 && !maze.board[pCell->x][pCell->y - 1].floodfillMark && !(maze.board[pCell->x][pCell->y].walls[down])) {
+			if (pCell->y - 1 >= 0 && !maze.board[pCell->x][pCell->y - 1].floodfillMark && 
+				!(maze.board[pCell->x][pCell->y].walls[down])) 
+			{
 				cellQueue.push(&(maze.board[pCell->x][pCell->y - 1]));
 				maze.board[pCell->x][pCell->y - 1].floodfillMark = true;
 				maze.board[pCell->x][pCell->y - 1].floodfillValue = floodfillAsignmentValue;
@@ -654,21 +670,7 @@ bool hasReachedTarget(Maze_t& maze, std::vector<Cell_t*>& targets)
 	return 0;
 }
 
-/**
- * @brief Verifica si maze.mouse llegó al centro del Laberinto,
- * 		  caso especial de hasReachedTarget.
- * @param maze La situación actual de la Maze.
- * @return 0 si termino, 1 si aún no terminó.
- */
-bool hasFinished(Maze_t& maze)
-{
-	if ((maze.mouse.x != 7) || (maze.mouse.y != 8))
-		return 0;
-	if ((maze.mouse.y != 7) || (maze.mouse.y != 8))
-		return 0;
 
-	return 1;
-}
 
 /**
  * @brief Wrapper de funciones de std::chrono para determinar
@@ -679,9 +681,8 @@ unsigned int timeElapsedInSeconds(void)
 {
 
 	auto endingTime = std::chrono::steady_clock::now();
-	unsigned int time = std::chrono::duration_cast<std::chrono::seconds>(endingTime - globalStartTime).count();
-	log(std::to_string(time));
-
+	unsigned int time = 
+		std::chrono::duration_cast<std::chrono::seconds>(endingTime - globalStartTime).count();
 	return time;
 }
 
@@ -694,8 +695,8 @@ unsigned int timeElapsedInSeconds(void)
  */
 bool firstRunCutoff(void)
 {
-	log(std::to_string(timeElapsedInSeconds()));
-	if (timeElapsedInSeconds() > TIME_LIMIT / 4)
+	
+	if (timeElapsedInSeconds() > TIME_LIMIT / 2.3)
 	{
 		log("Cutoff Triggered");
 		return 1;
